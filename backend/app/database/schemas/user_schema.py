@@ -11,6 +11,9 @@ class UserCreate(UserBase):
     password: str
     role: UserRoleEnum
 
+class UserPublicCreate(UserBase):
+    password: str
+
 class UserUpdate(BaseModel):
     username: str | None = None
     email: EmailStr | None = None

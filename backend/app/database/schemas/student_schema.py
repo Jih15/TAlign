@@ -4,10 +4,10 @@ from typing import Optional
 from app.database.schemas.user_schema import UserOut
 
 class StudentBase(BaseModel):
-    nim: int
-    full_name: str
-    majors: str
-    study_program: str
+    nim: Optional[int] = None
+    full_name: Optional[str] = None
+    majors: Optional[str] = None
+    study_program: Optional[str] = None
 
 class StudentCreate(StudentBase):
     user_id: int
@@ -23,7 +23,7 @@ class StudentOut(StudentBase):
     user_id: int
     created_at: datetime
     updated_at: datetime
-    user: UserOut
+    # user: UserOut
 
     model_config = {
         "from_attributes": True
