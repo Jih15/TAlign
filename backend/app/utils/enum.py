@@ -13,15 +13,19 @@ class DifficultyEnum(str, Enum):
 class IdeaSourceEnum(str, Enum):
     GENERATED = "GENERATED"
     MANUAL = "MANUAL"
-    LECTURER_ADVICE = "LECTURER ADVICE"
+    LECTURER_ADVICE = "LECTURER_ADVICE"
 
-class StatusEnum(str, Enum):
-    PROCESSED = "PROCESSED"
-    SUBMITTED = "SUBMITTED"
-    APPROVED = "APPROVED"
-    REJECTED = "REJECTED"
-
+# Submission Status
 class SubmissionStatusEnum(str, Enum):
-    WAITING = "WAITING"
+    WAITING = "WAITING_REVIEW"      
     APPROVED = "APPROVED"
     REJECTED = "REJECTED"
+    REVISED = "REVISED"      
+
+
+# Student Submission
+# class TitleStatusEnum(str, Enum):
+#     DRAFT = "DRAFT"
+#     WAITING_REVIEW = "WAITING_REVIEW"
+#     APPROVED = "APPROVED"
+#     REJECTED = "REJECTED"
