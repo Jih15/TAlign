@@ -1,14 +1,19 @@
 "use client";
 import { EmailIcon, PasswordIcon } from "@/assets/icons";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import InputGroup from "../FormElements/InputGroup";
 import { Checkbox } from "../FormElements/checkbox";
+import { loginUser } from "@/lib/api/auth";
 
 export default function SigninWithPassword() {
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   const [data, setData] = useState({
-    email: process.env.NEXT_PUBLIC_DEMO_USER_MAIL || "",
-    password: process.env.NEXT_PUBLIC_DEMO_USER_PASS || "",
+    username: "",
+    password: "",
     remember: false,
   });
 
@@ -21,27 +26,45 @@ export default function SigninWithPassword() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent)=> {
     e.preventDefault();
-
-    // You can remove this code block
+    console.log("Submit login dipanggil");
     setLoading(true);
+    setError(null);
 
-    setTimeout(() => {
+    try {
+      const res = await loginUser({
+        username: data.username,
+        password: data.password
+      });
+
+      // Get token
+      document.cookie = `access_token=${res.access_token}; path=/` 
+      router.push("/");
+
+    } catch (err: any){
+      setError(err.message);
+    } finally {
       setLoading(false);
-    }, 1000);
-  };
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
+      {error && (
+        <div className="mb-4 rounded bg-red-100 p-3 text-red-600">
+          {error}
+        </div>
+      )}
+
       <InputGroup
-        type="email"
-        label="Email"
+        type="text"
+        label="Username"
         className="mb-4 [&_input]:py-[15px]"
-        placeholder="Enter your email"
-        name="email"
+        placeholder="Enter your username"
+        name="username"
         handleChange={handleChange}
-        value={data.email}
+        value={data.username}
         icon={<EmailIcon />}
       />
 
@@ -82,11 +105,12 @@ export default function SigninWithPassword() {
       <div className="mb-4.5">
         <button
           type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+          disabled={loading}
+          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90 disabled:opacity-80"
         >
           Sign In
           {loading && (
-            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent dark:border-primary dark:border-t-transparent" />
+            <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-solid border-white border-t-transparent" />
           )}
         </button>
       </div>
