@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { LogOutIcon, SettingsIcon, UserIcon } from "./icons";
+import { useUser } from "@/hooks/me/use-user";
 
 export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,10 @@ export function UserInfo() {
     img: "/images/user/user-03.png",
   };
 
+  const { user, loading } = useUser();
+
+  if (loading) return null;
+
   return (
     <Dropdown isOpen={isOpen} setIsOpen={setIsOpen}>
       <DropdownTrigger className="rounded align-middle outline-none ring-primary ring-offset-2 focus-visible:ring-1 dark:ring-offset-gray-dark">
@@ -30,13 +35,13 @@ export function UserInfo() {
           <Image
             src={USER.img}
             className="size-12"
-            alt={`Avatar of ${USER.name}`}
+            alt={`Avatar of ${USER.img}`}
             role="presentation"
             width={200}
             height={200}
           />
           <figcaption className="flex items-center gap-1 font-medium text-dark dark:text-dark-6 max-[1024px]:sr-only">
-            <span>{USER.name}</span>
+            <span>{user?.username?? "Guest"}</span>
 
             <ChevronUpIcon
               aria-hidden
@@ -60,7 +65,7 @@ export function UserInfo() {
           <Image
             src={USER.img}
             className="size-12"
-            alt={`Avatar for ${USER.name}`}
+            alt={`Avatar for ${user?.username?? "Guest"}`}
             role="presentation"
             width={200}
             height={200}
@@ -68,10 +73,10 @@ export function UserInfo() {
 
           <figcaption className="space-y-1 text-base font-medium">
             <div className="mb-2 leading-none text-dark dark:text-white">
-              {USER.name}
+              {user?.username?? "Guest"}
             </div>
 
-            <div className="leading-none text-gray-6">{USER.email}</div>
+            <div className="leading-none text-gray-6">{user?.email?? "guest@example.com"}</div>
           </figcaption>
         </figure>
 

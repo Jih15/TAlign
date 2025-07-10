@@ -7,12 +7,25 @@ export const NAV_DATA = [
       {
         title: "Dashboard",
         icon: Icons.HomeIcon,
+        url: "/",
         items: [
-          {
-            title: "eCommerce",
-            url: "/",
-          },
+          // {
+          //   title: "eCommerce",
+          //   url: "/",
+          // },
         ],
+      },
+      {
+        title: "User",
+        url: "/user",
+        icon: Icons.User,
+        items: []
+      },
+      {
+        title: "Student Submission",
+        url: "/student-submission",
+        icon: Icons.Table,
+        items: []
       },
       {
         title: "Calendar",
@@ -96,7 +109,7 @@ export const NAV_DATA = [
         items: [
           {
             title: "Sign In",
-            url: "/auth/sign-in",
+            url: "/sign-in",
           },
         ],
       },
