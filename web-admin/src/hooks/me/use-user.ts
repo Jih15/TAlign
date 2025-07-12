@@ -1,24 +1,24 @@
 import constantValue from "@/lib/const/constant-value";
+import cookie from "@/lib/const/cookie";
 import { useEffect, useState } from "react";
 
 export function useUser() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const BaseUrl = "http://127.0.0.1:8000";
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await fetch(`${BaseUrl}/users/me`, {
+        const res = await fetch(`${constantValue.BASE_URL}/users/me`, {
           headers: {
-            Authorization: `Bearer ${constantValue.getCookie("access_token")}`,
+            Authorization: `Bearer ${cookie.getCookie("access_token")}`,
           },
         });
 
         if (res.status === 401) {
           // Token expired, hapus cookie & redirect
           document.cookie = `access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-          window.location.href = "/auth/sign-in";
+          window.location.href = "/sign-in";
           return;
         }
 

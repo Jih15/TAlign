@@ -1,8 +1,13 @@
+import { label } from "motion/react-client";
 import * as Icons from "../icons";
+import { title } from "process";
+import { url } from "inspector";
+import { StarIcon, AcademicCapIcon } from "@heroicons/react/24/outline";
+import { AcademicCapIcon  as ACsolid } from "@heroicons/react/16/solid";
 
 export const NAV_DATA = [
   {
-    label: "MAIN MENU",
+    label: "MAIN",
     items: [
       {
         title: "Dashboard",
@@ -16,17 +21,70 @@ export const NAV_DATA = [
         ],
       },
       {
+        title: "Submission",
+        icon: Icons.Table,
+        items: [
+          {
+            title : "Student Submission",
+            url : "/student-submissions"
+          },
+          {
+            title : "Submission Status",
+            url : "/submission-status"
+          },
+        ]
+      },
+      // {
+      //   title: "Student Submission",
+      //   url: "/student-submission",
+      //   icon: Icons.Table,
+      //   items: []
+      // },
+      // {
+      //   title: "Submission Status",
+      //   url: "/submission-status",
+      //   icon: Icons.Table,
+      //   items: []
+      // },      
+    ],
+  },
+  {
+    label: "USER MANAGEMENT",
+    items: [
+      {
         title: "User",
         url: "/user",
         icon: Icons.User,
         items: []
       },
       {
-        title: "Student Submission",
-        url: "/student-submission",
-        icon: Icons.Table,
+        title: "Student",
+        url: "/students",
+        icon: AcademicCapIcon,
         items: []
       },
+      {
+        title: "Lecturer",
+        url: "/lecturer",
+        icon: ACsolid,
+        items: []
+      },      
+    ],
+  },
+    {
+    label: "ADDS",
+    items: [
+      {
+        title: "Feedback",
+        url: "/feedback",
+        icon: StarIcon,
+        items: []
+      },      
+    ],
+  },
+  {
+    label: "HELPER",
+    items: [
       {
         title: "Calendar",
         url: "/calendar",
@@ -73,12 +131,7 @@ export const NAV_DATA = [
             url: "/pages/settings",
           },
         ],
-      },
-    ],
-  },
-  {
-    label: "OTHERS",
-    items: [
+      },      
       {
         title: "Charts",
         icon: Icons.PieChart,

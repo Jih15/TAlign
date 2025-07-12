@@ -9,7 +9,7 @@ class Lecturer(Base):
     lecturer_id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.user_id", ondelete ="CASCADE"), index=True)
     fullname = Column(String(55))
-    nip = Column(Integer, unique=True)
+    nip = Column(String(20), unique=True)
     field = Column(String(155))
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())

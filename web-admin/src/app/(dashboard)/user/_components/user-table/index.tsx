@@ -16,11 +16,20 @@ import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/re
 import Modal from "@/components/Modal/modal";
 import { CreateUserForm } from "../form/createuser-form";
 import { UpdateUserForm } from "../form/updateuser-form";
+import Image from "next/image";
 
 type SortDirection = 'asc' | 'desc' | null;
 type SortableField = 'username' | 'email' | 'role';
 
 export function UserTable({ className }: { className?: string }) {
+
+  const USER = {
+    name: "John Smith",
+    email: "johnson@nextadmin.com",
+    img: "/images/user/user-03.png",
+  };
+
+
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -225,6 +234,11 @@ export function UserTable({ className }: { className?: string }) {
       <Table>
         <TableHeader>
           <TableRow className="border-none uppercase">
+            <TableHead
+              className="w-20 text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+            >
+
+            </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
               onClick={() => handleSort('username')}
@@ -262,6 +276,14 @@ export function UserTable({ className }: { className?: string }) {
               key={user.user_id}
               className="text-base font-medium text-dark dark:text-white"
             >
+              <TableCell> 
+                <Image
+                  src={USER.img}
+                  alt={`Avatar of ${USER.img}`}
+                  width={50}
+                  height={50}
+                />
+              </TableCell>
               <TableCell className="text-left">{user.username}</TableCell>
               <TableCell className="text-left">{user.email}</TableCell>
               <TableCell className="text-left">{user.role}</TableCell>
