@@ -49,25 +49,25 @@ export async function getInvoiceTableData() {
       name: "Free package",
       price: 0.0,
       date: "2023-01-13T18:00:00.000Z",
-      status: "Paid",
+      status: "Easy",
     },
     {
       name: "Standard Package",
       price: 59.0,
       date: "2023-01-13T18:00:00.000Z",
-      status: "Paid",
+      status: "Hard",
     },
     {
       name: "Business Package",
       price: 99.0,
       date: "2023-01-13T18:00:00.000Z",
-      status: "Unpaid",
+      status: "Medium",
     },
     {
       name: "Standard Package",
       price: 59.0,
       date: "2023-01-13T18:00:00.000Z",
-      status: "Pending",
+      status: "Easy",
     },
   ];
 }

@@ -1,16 +1,13 @@
-const BASE_URL: string = "http://127.0.0.1:8000";
+import cookie from "./cookie";
 
-function getCookie(name: string): string | undefined {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(';').shift();
-}
+const BASE_URL: string = "http://127.0.0.1:8000";
+// const BASE_URL: string = "https://222jw3c9-8000.asse.devtunnels.ms"
 
 function getAuthHeader(): { 
   Authorization: string; 
   "Content-Type": string 
 } {
-  const token = getCookie("access_token");
+  const token = cookie.getCookie("access_token");
   if (!token) throw new Error("Unauthorized: No token found");
   return {
     Authorization: `Bearer ${token}`,
@@ -21,13 +18,12 @@ function getAuthHeader(): {
 function handleAuthError(status: number): void {
   if (status === 401 || status === 403) {
     document.cookie = "access_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    window.location.href = "/auth/sign-in";
+    window.location.href = "/sign-in";
   }
 }
 
 export default {
   BASE_URL,
-  getCookie,
   getAuthHeader,
   handleAuthError
 };

@@ -8,34 +8,84 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-export function TopChannelsSkeleton() {
+export function UserTableSkeleton() {
   return (
     <div className="rounded-[10px] bg-white px-7.5 pb-4 pt-7.5 shadow-1 dark:bg-gray-dark dark:shadow-card">
-      <h2 className="mb-5.5 text-body-2xlg font-bold text-dark dark:text-white">
-        Top Channels
-      </h2>
+      {/* Heading and Create Button Skeleton */}
+      <div className="mb-4 flex items-center justify-between">
+        <Skeleton className="h-8 w-40" />
+        <Skeleton className="h-9 w-24" />
+      </div>
+
+      {/* Items per page selector Skeleton */}
+      <div className="mb-4 flex items-center justify-between">
+        <div className="flex items-center space-x-2">
+          <Skeleton className="h-5 w-12" />
+          <Skeleton className="h-8 w-16" />
+          <Skeleton className="h-5 w-16" />
+        </div>
+      </div>
 
       <Table>
         <TableHeader>
-          <TableRow className="border-none uppercase [&>th]:text-center">
-            <TableHead className="!text-left">Source</TableHead>
-            <TableHead>Visitors</TableHead>
-            <TableHead className="!text-right">Revenues</TableHead>
-            <TableHead>Sales</TableHead>
-            <TableHead>Conversion</TableHead>
+          <TableRow className="border-none uppercase">
+            <TableHead className="text-left">
+              <Skeleton className="h-5 w-24" />
+            </TableHead>
+            <TableHead className="text-left">
+              <Skeleton className="h-5 w-24" />
+            </TableHead>
+            <TableHead className="text-left">
+              <Skeleton className="h-5 w-20" />
+            </TableHead>
+            <TableHead className="text-left">
+              <Skeleton className="h-5 w-16" />
+            </TableHead>
+            <TableHead className="text-right">
+              <Skeleton className="h-5 w-16 ml-auto" />
+            </TableHead>
           </TableRow>
         </TableHeader>
 
         <TableBody>
           {Array.from({ length: 5 }).map((_, i) => (
             <TableRow key={i}>
-              <TableCell colSpan={100}>
-                <Skeleton className="h-8" />
+              <TableCell>
+                <Skeleton className="h-6 w-32" />
+              </TableCell>              
+              <TableCell>
+                <Skeleton className="h-6 w-32" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-6 w-48" />
+              </TableCell>
+              <TableCell>
+                <Skeleton className="h-6 w-24" />
+              </TableCell>
+              <TableCell className="text-right">
+                <div className="flex justify-end gap-x-3.5">
+                  <Skeleton className="h-6 w-6" />
+                  <Skeleton className="h-6 w-6" />
+                </div>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+
+      {/* Pagination Controls Skeleton */}
+      <div className="mt-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
+        <Skeleton className="h-5 w-48" />
+        <div className="flex space-x-2">
+          <Skeleton className="h-8 w-20" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-8" />
+          <Skeleton className="h-8 w-20" />
+        </div>
+      </div>
     </div>
   );
 }

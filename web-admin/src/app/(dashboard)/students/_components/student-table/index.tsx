@@ -10,33 +10,30 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "@/lib/api/CRUD/users";
-import { PencilSquareIcon, TrashIcon, } from "@/assets/icons";
-import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid"; 
+import { getAllStudents } from "@/lib/api/CRUD/students";
+import { PencilSquareIcon, TrashIcon } from "@/assets/icons";
+import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Modal from "@/components/Modal/modal";
-import { CreateUserForm } from "../form/createuser-form";
-import { UpdateUserForm } from "../form/updateuser-form";
-import Image from "next/image";
+import { UpdateStudentForm } from "../form/updatestudent-form";
+
+type Student = {
+  user_id: string;
+  nim: string;
+  full_name: string;
+  majors: string;
+  study_program: string;
+};
 
 type SortDirection = 'asc' | 'desc' | null;
-type SortableField = 'username' | 'email' | 'role';
+type SortableField = keyof Pick<Student, 'nim' | 'full_name' | 'majors' | 'study_program'>;
 
-export function UserTable({ className }: { className?: string }) {
-
-  const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
-    img: "/images/user/user-03.png",
-  };
-
-
-  const [users, setUsers] = useState<any[]>([]);
+export function StudentTable({ className }: { className?: string }) {
+  const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<any | null>(null);
-  const [userToDelete, setUserToDelete] = useState<any | null>(null);
+  const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
+  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,20 +43,20 @@ export function UserTable({ className }: { className?: string }) {
   const [sortField, setSortField] = useState<SortableField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
-  const fetchUsers = async () => {
+  const fetchStudents = async () => {
     setLoading(true);
     try {
-      const data = await getAllUsers();
-      setUsers(data);
+      const data = await getAllStudents();
+      setStudents(data);
     } catch (err) {
-      console.error("Error fetching users:", err);
+      console.error("Error fetching students:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchStudents();
   }, []);
 
   // Reset to first page when items per page or sorting changes
@@ -67,8 +64,8 @@ export function UserTable({ className }: { className?: string }) {
     setCurrentPage(1);
   }, [itemsPerPage, sortField, sortDirection]);
 
-  // Sort users when sortField or sortDirection changes
-  const sortedUsers = [...users].sort((a, b) => {
+  // Sort students when sortField or sortDirection changes
+  const sortedStudents = [...students].sort((a, b) => {
     if (!sortField) return 0;
     
     const aValue = a[sortField];
@@ -86,8 +83,8 @@ export function UserTable({ className }: { className?: string }) {
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(sortedUsers.length / itemsPerPage);
+  const currentItems = sortedStudents.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedStudents.length / itemsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -122,25 +119,24 @@ export function UserTable({ className }: { className?: string }) {
     }
   };
 
-  const handleDeleteClick = (user: any) => {
-    setUserToDelete(user);
-    setIsDeleteModalOpen(true);
-  };
+  // const handleDeleteClick = (student: Student) => {
+  //   setStudentToDelete(student);
+  //   setIsDeleteModalOpen(true);
+  // };
 
-  const confirmDelete = async () => {
-    if (!userToDelete) return;
+  // const confirmDelete = async () => {
+  //   if (!studentToDelete) return;
     
-    try {
-      await deleteUser(userToDelete.user_id);
-      // Refresh user list after successful deletion
-      await fetchUsers();
-      setIsDeleteModalOpen(false);
-      setUserToDelete(null);
-    } catch (error) {
-      console.error("Failed to delete user:", error);
-      alert("Failed to delete user. Please try again.");
-    }
-  };
+  //   try {
+  //     // await deleteStudent(studentToDelete.user_id);
+  //     await fetchStudents();
+  //     setIsDeleteModalOpen(false);
+  //     setStudentToDelete(null);
+  //   } catch (error) {
+  //     console.error("Failed to delete student:", error);
+  //     alert("Failed to delete student. Please try again.");
+  //   }
+  // };
 
   if (loading) return <div className="text-white">Loading...</div>;
 
@@ -151,34 +147,24 @@ export function UserTable({ className }: { className?: string }) {
         className,
       )}
     >
-      {/* Heading and Create Button */}
+      {/* Heading */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-body-2xlg font-bold text-dark dark:text-white">
-          All Users
+          All Students
         </h2>
-        <button 
-          onClick={() => setIsModalOpen(true)} 
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
-        >
-          + Create
-        </button>
       </div>
 
       {/* Modals */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <CreateUserForm onClose={() => setIsModalOpen(false)} />
-      </Modal>
-
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <UpdateUserForm 
-          user={selectedUser}
-          onClose={() => setIsEditModalOpen(false)}
-          onSuccess={fetchUsers}
+        <UpdateStudentForm 
+          student={selectedStudent}
+          onClose={()=> setIsEditModalOpen(false)}
+          onSuccess={fetchStudents}
         />
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+      {/* <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-dark dark:text-white">
@@ -193,7 +179,7 @@ export function UserTable({ className }: { className?: string }) {
           </div>
           
           <p className="text-dark dark:text-white">
-            Are you sure you want to delete user <strong>{userToDelete?.username}</strong>?
+            Are you sure you want to delete student <strong>{studentToDelete?.full_name}</strong> (NIM: {studentToDelete?.nim})?
           </p>
           
           <div className="flex justify-end space-x-3">
@@ -211,7 +197,7 @@ export function UserTable({ className }: { className?: string }) {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       {/* Items per page selector */}
       <div className="mb-4 flex items-center justify-between">
@@ -234,36 +220,40 @@ export function UserTable({ className }: { className?: string }) {
       <Table>
         <TableHeader>
           <TableRow className="border-none uppercase">
-            <TableHead
-              className="w-20 text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-
-            </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('username')}
+              onClick={() => handleSort('nim')}
             >
               <div className="flex items-center">
-                Username
-                {renderSortIcon('username')}
+                NIM
+                {renderSortIcon('nim')}
               </div>
             </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('email')}
+              onClick={() => handleSort('full_name')}
             >
               <div className="flex items-center">
-                Email
-                {renderSortIcon('email')}
+                Fullname
+                {renderSortIcon('full_name')}
               </div>
             </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('role')}
+              onClick={() => handleSort('majors')}
             >
               <div className="flex items-center">
-                Role
-                {renderSortIcon('role')}
+                Majors
+                {renderSortIcon('majors')}
+              </div>
+            </TableHead>
+            <TableHead 
+              className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
+              onClick={() => handleSort('study_program')}
+            >
+              <div className="flex items-center">
+                Study Program
+                {renderSortIcon('study_program')}
               </div>
             </TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -271,34 +261,56 @@ export function UserTable({ className }: { className?: string }) {
         </TableHeader>
 
         <TableBody>
-          {currentItems.map((user) => (
+          {currentItems.map((student) => (
             <TableRow
-              key={user.user_id}
+              key={student.user_id}
               className="text-base font-medium text-dark dark:text-white"
             >
-              <TableCell> 
-                <Image
-                  src={USER.img}
-                  alt={`Avatar of ${USER.img}`}
-                  width={50}
-                  height={50}
-                />
+              {/* <TableCell className="text-left">{student.nim ?? "Belum diisi"}</TableCell>
+              <TableCell className="text-left">{student.full_name}</TableCell>
+              <TableCell className="text-left">{student.majors}</TableCell>
+              <TableCell className="text-left">{student.study_program}</TableCell> */}
+              <TableCell className="text-left">
+                {student.nim ? (
+                  student.nim
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
               </TableCell>
-              <TableCell className="text-left">{user.username}</TableCell>
-              <TableCell className="text-left">{user.email}</TableCell>
-              <TableCell className="text-left">{user.role}</TableCell>
+              <TableCell className="text-left">
+                {student.full_name ? (
+                  student.full_name
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
+              </TableCell>
+              <TableCell className="text-left">
+                {student.majors ? (
+                  student.majors
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
+              </TableCell>
+              <TableCell className="text-left">
+                {student.study_program ? (
+                  student.study_program
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
+              </TableCell>
               <TableCell className="text-right xl:pr-7.5">
                 <div className="flex justify-end items-center gap-x-3.5">
-                  <button 
-                    onClick={() => handleDeleteClick(user)} 
+                  {/* <button 
+                    onClick={() => handleDeleteClick(student)} 
                     className="hover:text-red-600"
                   >
                     <span className="sr-only">Delete</span>
                     <TrashIcon />
-                  </button>
+                  </button> */}
                   <button 
                     onClick={() => {
-                      setSelectedUser(user);
+                      // Handle edit functionality here
+                      setSelectedStudent(student);
                       setIsEditModalOpen(true);
                     }} 
                     className="hover:text-orange-400"
@@ -316,7 +328,7 @@ export function UserTable({ className }: { className?: string }) {
       {/* Pagination Controls */}
       <div className="mt-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="text-sm text-gray-500 dark:text-gray-400">
-          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedUsers.length)} of {sortedUsers.length} entries
+          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedStudents.length)} of {sortedStudents.length} entries
         </div>
         <div className="flex space-x-2">
           <button

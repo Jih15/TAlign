@@ -10,33 +10,30 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "@/lib/api/CRUD/users";
-import { PencilSquareIcon, TrashIcon, } from "@/assets/icons";
-import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid"; 
+import { getAllLecturer } from "@/lib/api/CRUD/lecturers";
+import { PencilSquareIcon, TrashIcon } from "@/assets/icons";
+import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Modal from "@/components/Modal/modal";
-import { CreateUserForm } from "../form/createuser-form";
-import { UpdateUserForm } from "../form/updateuser-form";
-import Image from "next/image";
+import { UpdateLecturerForm } from "../form/updatelecturer-form";
+// import { UpdateStudentForm } from "../form/updatestudent-form";
+
+type Lecturers = {
+  user_id: string;
+  nip: string;
+  fullname: string;
+  field: string;
+};
 
 type SortDirection = 'asc' | 'desc' | null;
-type SortableField = 'username' | 'email' | 'role';
+type SortableField = keyof Pick<Lecturers, 'nip' | 'fullname' | 'field' >;
 
-export function UserTable({ className }: { className?: string }) {
-
-  const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
-    img: "/images/user/user-03.png",
-  };
-
-
-  const [users, setUsers] = useState<any[]>([]);
+export function LecturerTable({ className }: { className?: string }) {
+  const [lecturers, setLecturers] = useState<Lecturers[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<any | null>(null);
-  const [userToDelete, setUserToDelete] = useState<any | null>(null);
+  const [selectedLecturer, setSelectedLecturer] = useState<any | null>(null);
+  const [lecturerToDelete, setLecturerToDelete] = useState<Lecturers | null>(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -46,20 +43,20 @@ export function UserTable({ className }: { className?: string }) {
   const [sortField, setSortField] = useState<SortableField | null>(null);
   const [sortDirection, setSortDirection] = useState<SortDirection>(null);
 
-  const fetchUsers = async () => {
+  const fetchLecturer = async () => {
     setLoading(true);
     try {
-      const data = await getAllUsers();
-      setUsers(data);
+      const data = await getAllLecturer();
+      setLecturers(data);
     } catch (err) {
-      console.error("Error fetching users:", err);
+      console.error("Error fetching students:", err);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchLecturer();
   }, []);
 
   // Reset to first page when items per page or sorting changes
@@ -67,8 +64,8 @@ export function UserTable({ className }: { className?: string }) {
     setCurrentPage(1);
   }, [itemsPerPage, sortField, sortDirection]);
 
-  // Sort users when sortField or sortDirection changes
-  const sortedUsers = [...users].sort((a, b) => {
+  // Sort lecturer when sortField or sortDirection changes
+  const sortedLecturer = [...lecturers].sort((a, b) => {
     if (!sortField) return 0;
     
     const aValue = a[sortField];
@@ -86,8 +83,8 @@ export function UserTable({ className }: { className?: string }) {
   // Pagination logic
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = sortedUsers.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(sortedUsers.length / itemsPerPage);
+  const currentItems = sortedLecturer.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(sortedLecturer.length / itemsPerPage);
 
   const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
@@ -122,25 +119,24 @@ export function UserTable({ className }: { className?: string }) {
     }
   };
 
-  const handleDeleteClick = (user: any) => {
-    setUserToDelete(user);
-    setIsDeleteModalOpen(true);
-  };
+  // const handleDeleteClick = (student: Lecturers) => {
+  //   setLecturerToDelete(student);
+  //   setIsDeleteModalOpen(true);
+  // };
 
-  const confirmDelete = async () => {
-    if (!userToDelete) return;
+  // const confirmDelete = async () => {
+  //   if (!lecturerToDelete) return;
     
-    try {
-      await deleteUser(userToDelete.user_id);
-      // Refresh user list after successful deletion
-      await fetchUsers();
-      setIsDeleteModalOpen(false);
-      setUserToDelete(null);
-    } catch (error) {
-      console.error("Failed to delete user:", error);
-      alert("Failed to delete user. Please try again.");
-    }
-  };
+  //   try {
+  //     // await deleteStudent(studentToDelete.user_id);
+  //     await fetchLecturer();
+  //     setIsDeleteModalOpen(false);
+  //     setLecturerToDelete(null);
+  //   } catch (error) {
+  //     console.error("Failed to delete student:", error);
+  //     alert("Failed to delete student. Please try again.");
+  //   }
+  // };
 
   if (loading) return <div className="text-white">Loading...</div>;
 
@@ -151,34 +147,24 @@ export function UserTable({ className }: { className?: string }) {
         className,
       )}
     >
-      {/* Heading and Create Button */}
+      {/* Heading */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-body-2xlg font-bold text-dark dark:text-white">
-          All Users
+          All Lecturers
         </h2>
-        <button 
-          onClick={() => setIsModalOpen(true)} 
-          className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary-dark"
-        >
-          + Create
-        </button>
       </div>
 
       {/* Modals */}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <CreateUserForm onClose={() => setIsModalOpen(false)} />
-      </Modal>
-
       <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <UpdateUserForm 
-          user={selectedUser}
-          onClose={() => setIsEditModalOpen(false)}
-          onSuccess={fetchUsers}
+        <UpdateLecturerForm
+          lecturer={selectedLecturer}
+          onClose={()=> setIsEditModalOpen(false)}
+          onSuccess={fetchLecturer}
         />
       </Modal>
 
       {/* Delete Confirmation Modal */}
-      <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
+      {/* <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
         <div className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold text-dark dark:text-white">
@@ -193,7 +179,7 @@ export function UserTable({ className }: { className?: string }) {
           </div>
           
           <p className="text-dark dark:text-white">
-            Are you sure you want to delete user <strong>{userToDelete?.username}</strong>?
+            Are you sure you want to delete student <strong>{lecturerToDelete?.fullname}</strong> (NIM: {lecturerToDelete?.nip})?
           </p>
           
           <div className="flex justify-end space-x-3">
@@ -211,7 +197,7 @@ export function UserTable({ className }: { className?: string }) {
             </button>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       {/* Items per page selector */}
       <div className="mb-4 flex items-center justify-between">
@@ -234,36 +220,31 @@ export function UserTable({ className }: { className?: string }) {
       <Table>
         <TableHeader>
           <TableRow className="border-none uppercase">
-            <TableHead
-              className="w-20 text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-            >
-
-            </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('username')}
+              onClick={() => handleSort('nip')}
             >
               <div className="flex items-center">
-                Username
-                {renderSortIcon('username')}
+                NIP
+                {renderSortIcon('nip')}
               </div>
             </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('email')}
+              onClick={() => handleSort('fullname')}
             >
               <div className="flex items-center">
-                Email
-                {renderSortIcon('email')}
+                Fullname
+                {renderSortIcon('fullname')}
               </div>
             </TableHead>
             <TableHead 
               className="text-left cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700"
-              onClick={() => handleSort('role')}
+              onClick={() => handleSort('field')}
             >
               <div className="flex items-center">
-                Role
-                {renderSortIcon('role')}
+                Field
+                {renderSortIcon('field')}
               </div>
             </TableHead>
             <TableHead className="text-right">Action</TableHead>
@@ -271,34 +252,45 @@ export function UserTable({ className }: { className?: string }) {
         </TableHeader>
 
         <TableBody>
-          {currentItems.map((user) => (
+          {currentItems.map((lecturer) => (
             <TableRow
-              key={user.user_id}
+              key={lecturer.user_id}
               className="text-base font-medium text-dark dark:text-white"
             >
-              <TableCell> 
-                <Image
-                  src={USER.img}
-                  alt={`Avatar of ${USER.img}`}
-                  width={50}
-                  height={50}
-                />
+              <TableCell className="text-left">
+                {lecturer.nip ? (
+                  lecturer.nip
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
               </TableCell>
-              <TableCell className="text-left">{user.username}</TableCell>
-              <TableCell className="text-left">{user.email}</TableCell>
-              <TableCell className="text-left">{user.role}</TableCell>
+              <TableCell className="text-left">
+                {lecturer.fullname ? (
+                  lecturer.fullname
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
+              </TableCell>
+              <TableCell className="text-left">
+                {lecturer.field ? (
+                  lecturer.field
+                ) : (
+                  <span className="text-gray-400">Belum diisi</span>
+                )}
+              </TableCell>
               <TableCell className="text-right xl:pr-7.5">
                 <div className="flex justify-end items-center gap-x-3.5">
-                  <button 
-                    onClick={() => handleDeleteClick(user)} 
+                  {/* <button 
+                    onClick={() => handleDeleteClick(student)} 
                     className="hover:text-red-600"
                   >
                     <span className="sr-only">Delete</span>
                     <TrashIcon />
-                  </button>
+                  </button> */}
                   <button 
                     onClick={() => {
-                      setSelectedUser(user);
+                      // Handle edit functionality here
+                      setSelectedLecturer(lecturer);
                       setIsEditModalOpen(true);
                     }} 
                     className="hover:text-orange-400"
@@ -316,7 +308,7 @@ export function UserTable({ className }: { className?: string }) {
       {/* Pagination Controls */}
       <div className="mt-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
         <div className="text-sm text-gray-500 dark:text-gray-400">
-          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedUsers.length)} of {sortedUsers.length} entries
+          Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, sortedLecturer.length)} of {sortedLecturer.length} entries
         </div>
         <div className="flex space-x-2">
           <button

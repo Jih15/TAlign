@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import InputGroup from "../FormElements/InputGroup";
 import { Checkbox } from "../FormElements/checkbox";
 import { loginUser } from "@/lib/api/auth";
+import cookie from "@/lib/const/cookie";
 
 export default function SigninWithPassword() {
   const router = useRouter();
@@ -38,8 +39,8 @@ export default function SigninWithPassword() {
         password: data.password
       });
 
-      // Get token
-      document.cookie = `access_token=${res.access_token}; path=/` 
+      // Get token for cookie
+      cookie.setCookie("access_token", res.access_token, 7);
       router.push("/");
 
     } catch (err: any){
