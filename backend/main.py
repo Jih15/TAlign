@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from sqlalchemy.exc import SQLAlchemyError
 from app.database.session import Base
 from app.database.mysql import engine
 from app.routes.auth_route import router as AuthRoute
@@ -8,10 +9,26 @@ from app.routes.lecturer_route import router as LecturerRoute
 from app.routes.student_submission_route import router as StudentSubmissionRoute
 from app.routes.submission_status_route import router as SubmissionStatusRoute
 from app.routes.feedback_route import router as FeedbackRoute
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 # Base.metadata.drop_all(bind=engine)
-Base.metadata.create_all(bind=engine)
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database connected and tables created.")
+except SQLAlchemyError as e:
+    print("❌ Database connection failed:", e)
+
+# Base.metadata.create_all(bind=engine)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],      
+    allow_headers=["*"],      
+)
+
 
 @app.get("/")
 def read_root():
