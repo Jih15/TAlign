@@ -1,9 +1,9 @@
-import 'package:Cek_Tugas_Akhir/app/modules/profile/widget/app_personalization.dart';
-import 'package:Cek_Tugas_Akhir/app/modules/profile/widget/profile_card.dart';
-import 'package:Cek_Tugas_Akhir/app/routes/app_pages.dart';
-import 'package:Cek_Tugas_Akhir/utils/constant_assets.dart';
-import 'package:Cek_Tugas_Akhir/utils/theme_app.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/app/modules/profile/widget/app_personalization.dart';
+import 'package:frontend/app/modules/profile/widget/profile_card.dart';
+import 'package:frontend/app/routes/app_pages.dart';
+import 'package:frontend/utils/constant_assets.dart';
+import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';

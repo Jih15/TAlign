@@ -1,7 +1,6 @@
 import 'dart:ui';
-
-import 'package:Cek_Tugas_Akhir/utils/constant_assets.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class GenerateController extends GetxController {

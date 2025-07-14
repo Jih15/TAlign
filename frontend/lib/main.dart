@@ -1,8 +1,8 @@
-import 'package:Cek_Tugas_Akhir/services/translation_services.dart';
-import 'package:Cek_Tugas_Akhir/utils/constant_value.dart';
-import 'package:Cek_Tugas_Akhir/utils/theme_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:frontend/services/translation_services.dart';
+import 'package:frontend/utils/constant_value.dart';
+import 'package:frontend/utils/theme_app.dart';
 import 'package:get/get.dart';
 import 'app/routes/app_pages.dart';
 
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeApp.lightTheme,
       darkTheme: ThemeApp.darkTheme,
       themeMode: ThemeMode.system,
-      initialRoute: AppPages.INITIAL,
+      initialRoute: '/login',
       getPages: AppPages.routes,
     );
   }

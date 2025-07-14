@@ -1,6 +1,6 @@
-import 'package:Cek_Tugas_Akhir/utils/constant_assets.dart';
-import 'package:Cek_Tugas_Akhir/utils/theme_app.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/utils/constant_assets.dart';
+import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 
 class ProfileCard extends StatelessWidget {

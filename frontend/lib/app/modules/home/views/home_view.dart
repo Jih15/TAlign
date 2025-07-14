@@ -1,6 +1,6 @@
-import 'package:Cek_Tugas_Akhir/app/modules/home/widget/custom_appbar.dart';
-import 'package:Cek_Tugas_Akhir/app/modules/home/widget/feature_card.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/app/modules/home/widget/custom_appbar.dart';
+import 'package:frontend/app/modules/home/widget/feature_card.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
