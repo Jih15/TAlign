@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getAllLecturer } from "@/lib/api/CRUD/lecturers";
+import { getAllLecturer } from "@/lib/api/CRUD/lecturers/lecturers";
 import { PencilSquareIcon, TrashIcon } from "@/assets/icons";
 import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid";
 import Modal from "@/components/Modal/modal";

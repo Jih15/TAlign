@@ -1,4 +1,4 @@
-import constantValue from "@/lib/const/constant-value";
+import constantValue from "@/lib/const/constant-value.client";
 
 // ====================== PROFILE: CURRENT USER ====================== //
 

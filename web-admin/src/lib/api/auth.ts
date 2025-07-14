@@ -1,4 +1,4 @@
-import constantValue from "../const/constant-value";
+import constantValue from "../const/constant-value.client";
 
 export async function loginUser({
     username,

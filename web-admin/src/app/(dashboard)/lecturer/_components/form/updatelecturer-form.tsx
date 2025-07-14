@@ -1,7 +1,7 @@
 "use client";
 
 import InputGroup from "@/components/FormElements/InputGroup";
-import { updateLecturer } from "@/lib/api/CRUD/lecturers";
+import { updateLecturer } from "@/lib/api/CRUD/lecturers/lecturers";
 import { useState, useEffect } from "react";
 
 interface UpdateLecturerFormProps {

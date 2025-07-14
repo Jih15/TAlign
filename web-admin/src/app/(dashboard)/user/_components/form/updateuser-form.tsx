@@ -1,7 +1,7 @@
 "use client";
 
 import InputGroup from "@/components/FormElements/InputGroup";
-import { updateUser } from "@/lib/api/CRUD/users";
+import { updateUser } from "@/lib/api/CRUD/users/users";
 import { useState, useEffect } from "react";
 
 interface UpdateUserFormProps {
