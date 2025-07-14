@@ -1,7 +1,7 @@
-import 'package:Cek_Tugas_Akhir/services/translation_services.dart';
-import 'package:Cek_Tugas_Akhir/utils/constant_assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:frontend/services/translation_services.dart';
+import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {

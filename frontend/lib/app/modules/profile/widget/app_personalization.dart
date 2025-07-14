@@ -1,7 +1,7 @@
-import 'package:Cek_Tugas_Akhir/app/modules/profile/controllers/profile_controller.dart';
-import 'package:Cek_Tugas_Akhir/utils/constant_assets.dart';
-import 'package:Cek_Tugas_Akhir/utils/theme_app.dart';
 import 'package:flutter/material.dart';
+import 'package:frontend/app/modules/profile/controllers/profile_controller.dart';
+import 'package:frontend/utils/constant_assets.dart';
+import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
