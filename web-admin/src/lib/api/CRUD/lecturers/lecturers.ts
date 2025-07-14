@@ -1,7 +1,7 @@
-import constantValue from "@/lib/const/constant-value";
+import constantValue from "@/lib/const/constant-value.client";
 
-export async function getAllStudents() {
-  const res = await fetch(`${constantValue.BASE_URL}/students`, {
+export async function getAllLecturer() {
+  const res = await fetch(`${constantValue.BASE_URL}/lecturers`, {
     method: "GET", 
     headers: constantValue.getAuthHeader(),
     cache: "no-store"
@@ -15,8 +15,8 @@ export async function getAllStudents() {
   return res.json();
 }
 
-export async function updateStudent(studentId:number, data:any) {
-  const res = await fetch(`${constantValue.BASE_URL}/students/${studentId}`, {
+export async function updateLecturer(lectureId:number, data:any) {
+  const res = await fetch(`${constantValue.BASE_URL}/lecturers/${lectureId}`, {
     method: "PUT",
     headers: constantValue.getAuthHeader(),
     body: JSON.stringify(data)
@@ -24,7 +24,7 @@ export async function updateStudent(studentId:number, data:any) {
 
   if (!res.ok) {
     constantValue.handleAuthError(res.status);
-    throw new Error(`Failed to update student ${studentId}: ${res.status}`);
+    throw new Error(`Failed to update lecturer ${lectureId}: ${res.status}`);
   }
 
   return res.json();

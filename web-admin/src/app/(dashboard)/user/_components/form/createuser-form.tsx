@@ -1,7 +1,7 @@
 "use client";
 
 import InputGroup from "@/components/FormElements/InputGroup";
-import { createUser } from "@/lib/api/CRUD/users";
+import { createUser } from "@/lib/api/CRUD/users/users";
 import { useState } from "react";
 
 export function CreateUserForm({ onClose }: { onClose: () => void }) {
