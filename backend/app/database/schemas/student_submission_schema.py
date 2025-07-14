@@ -25,6 +25,16 @@ class SubmissionUpdate(BaseModel):
     title_status: Optional[SubmissionStatusEnum] = None
     similarity_score: Optional[float] = None
 
+class SubmissionOutAlt(SubmissionBase):
+    submission_id: int
+    student_id: int
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = {
+        "from_attributes": True
+    }
+
 class SubmissionOut(SubmissionBase):
     submission_id: int
     student_id: int
