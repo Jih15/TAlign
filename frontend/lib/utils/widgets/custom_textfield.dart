@@ -87,7 +87,9 @@ class CustomTextFormField extends StatelessWidget {
           obscureText: obscureText,
           textAlign: textAlign,
           textCapitalization: textCapitalization,
-          maxLines: (keyboardType == TextInputType.multiline) ? null : maxLines,
+          maxLines: obscureText
+              ? 1
+              : (keyboardType == TextInputType.multiline ? null : maxLines),
           maxLength:
           (keyboardType == TextInputType.multiline) ? null : maxLength,
           buildCounter: (context,

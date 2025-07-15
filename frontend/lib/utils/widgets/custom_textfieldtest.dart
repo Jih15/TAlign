@@ -45,7 +45,6 @@ class CustomTextfieldtest extends StatelessWidget {
               ? BorderSide.none
               : const BorderSide(color: ThemeApp.grayscaleLight, width: 1.0),
         ),
-
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: isDarkMode

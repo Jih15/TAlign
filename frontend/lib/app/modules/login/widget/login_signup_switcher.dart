@@ -18,7 +18,7 @@ class LoginSignUpSwitcher extends StatelessWidget {
     return Obx(() {
       return Container(
         width: width,
-        height: 50,
+        height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
           color: Colors.grey[300],
@@ -60,7 +60,7 @@ class LoginSignUpSwitcher extends StatelessWidget {
                         'Login',
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 16,
+                          fontSize: 14,
                           color:
                           isLogin.value ? Colors.black : Colors.grey[600],
                         ),
@@ -76,8 +76,8 @@ class LoginSignUpSwitcher extends StatelessWidget {
                       child: Text(
                         'Sign Up',
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
                           color:
                           isLogin.value ? Colors.grey[600] : Colors.black,
                         ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
@@ -5,6 +6,11 @@ class LoginController extends GetxController {
   //TODO: Implement LoginController
   final RxString bgImagePath = ''.obs;
   var isLogin = true.obs;
+  final rememberMe = false.obs;
+
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   void toggleTab(bool login){
     isLogin.value = login;
