@@ -23,14 +23,15 @@ def login_user(data: LoginSchema, db:Session = Depends(get_db)):
     elif user == "wrong_password":
         raise HTTPException(status_code=401, detail="Invalid password!")
     
-    token = create_access_token(
+    token,expire = create_access_token(
         data={"sub" : str(user.user_id), "role": user.role.value}
     )
 
     return {
         "user" : user,
         "access_token": token,
-        "token_type": "bearer"
+        "token_type": "bearer",
+        "expires_at": expire.isoformat()
     }
 
 @router.post("/register/student", response_model=UserOut)
