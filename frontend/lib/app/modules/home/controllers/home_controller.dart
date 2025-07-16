@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/app/data/controller/user_controller.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
+  final UserController _userController = Get.find<UserController>();
+
   final TextEditingController controller = TextEditingController();
   final RxString bgImagePath = ''.obs;
   final count = 0.obs;
@@ -11,16 +13,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
+    fetchUser();
   }
 
   void setBgImg(bool isDarkMode) {
@@ -29,5 +22,13 @@ class HomeController extends GetxController {
         : ConstantAssets.imgBgLight;
   }
 
-  void increment() => count.value++;
+  void fetchUser() async {
+    try {
+      await _userController.getMyData();
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    }
+  }
+
+  String? get username => _userController.user.value?.username;
 }

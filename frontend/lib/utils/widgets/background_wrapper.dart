@@ -15,6 +15,9 @@ class BackgroundWrapper extends StatelessWidget {
 
     return Stack(
       children: [
+        Container(
+          color: isDark ? Colors.black : Colors.white,
+        ),
         Image.asset(
           imagePath,
           fit: BoxFit.cover,
