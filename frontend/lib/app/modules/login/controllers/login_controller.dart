@@ -15,6 +15,8 @@ class LoginController extends GetxController {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
+  var isPasswordVisible = false.obs;
+
   var isLogin = true.obs;
 
   void toggleTab(bool login){

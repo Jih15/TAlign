@@ -5,7 +5,7 @@ class ThemeApp {
   // Grayscale
   static const Color grayscaleDarker = Color(0xFF0E1619); // for cards in dark mode
   static const Color grayscaleDark = Color(0xFF050505); // almost black
-  static const Color grayscaleMedium = Color(0xFF3A3B3F); // for icon backgrounds, etc.
+  static const Color grayscaleMedium = Color(0xFF1B1E1F); // for icon backgrounds, etc.
   static const Color grayscaleAltDark = Color(0xFF959595); // Alt dark
   static const Color grayscaleLight = Color(0xFFDFDFDF); // light gray for surface in light mode
   static const Color grayscaleLighter = Color(0xFFE3E3E3); // placeholder/loading

@@ -58,7 +58,7 @@ class ProfileView extends GetView<ProfileController> {
                   Text(
                     'Profile',
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: color.onSurface
                     ),
@@ -69,14 +69,49 @@ class ProfileView extends GetView<ProfileController> {
                   Text(
                     'App',
                     style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: color.onSurface
                     ),
                   ),
                   Gap(16),
                   AppPersonalization(),
-                  Gap(24),
+                  Gap(16),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      padding: EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: isDarkMode
+                            ? ThemeApp.grayscaleMedium
+                            : ThemeApp.grayscaleAltLight,
+                        borderRadius: BorderRadius.circular(16),
+                        border: isDarkMode
+                            ? null
+                            : Border.all(color: Colors.grey.shade400, width: 1),
+                      ),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Feedback',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: isDarkMode
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Gap(16),
                   GestureDetector(
                     onTap: () {},
                     child: Container(
@@ -100,7 +135,7 @@ class ProfileView extends GetView<ProfileController> {
                           Text(
                             'Contact Us',
                             style: TextStyle(
-                              fontSize: 16,
+                              fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: isDarkMode
                                   ? Colors.white
@@ -111,7 +146,7 @@ class ProfileView extends GetView<ProfileController> {
                       ),
                     ),
                   ),
-                  Gap(24),
+                  Gap(16),
                   GestureDetector(
                     onTap: controller.logout,
                     child: Container(
@@ -130,7 +165,7 @@ class ProfileView extends GetView<ProfileController> {
                           Text(
                             'Logout',
                             style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: Colors.white
                             ),

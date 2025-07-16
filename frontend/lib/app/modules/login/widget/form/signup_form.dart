@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/login/controllers/login_controller.dart';
 import 'package:frontend/utils/theme_app.dart';
+import 'package:frontend/utils/widgets/custom_textfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -12,83 +13,54 @@ class SignUpForm extends GetView<LoginController> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Gap(16),
         const Text('Username', style: TextStyle(color: Colors.black)),
         const Gap(4),
-        TextFormField(
-          style: const TextStyle(color: Colors.black),
+        CustomTextField(
           controller: controller.usernameController,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ThemeApp.grayscaleAltLight,
-            hintStyle: const TextStyle(fontSize: 12, color: Colors.white),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeApp.grayscaleLight),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
-            ),
-          ),
+          hintText: 'Enter new username!',
+          forceLightMode: true,
         ),
         const Gap(16),
-        // Email Field
         const Text('Email', style: TextStyle(color: Colors.black)),
         const Gap(4),
-        TextFormField(
-          style: const TextStyle(color: Colors.black),
+        CustomTextField(
           controller: controller.emailController,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ThemeApp.grayscaleAltLight,
-            hintStyle: const TextStyle(fontSize: 12, color: Colors.white),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeApp.grayscaleLight),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
-            ),
-          ),
+          hintText: 'Enter your email!',
+          forceLightMode: true,
         ),
         const Gap(16),
-
-        // Password Field
         const Text('Password', style: TextStyle(color: Colors.black)),
         const Gap(4),
-        TextFormField(
-          style: const TextStyle(color: Colors.black),
+        // TextFormField(
+        //   style: const TextStyle(color: Colors.black),
+        //   controller: controller.passwordController,
+        //   obscureText: true,
+        //   decoration: InputDecoration(
+        //     filled: true,
+        //     fillColor: ThemeApp.grayscaleAltLight,
+        //     hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
+        //     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        //     border: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(16),
+        //       borderSide: BorderSide.none,
+        //     ),
+        //     enabledBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: BorderSide(color: ThemeApp.grayscaleLight),
+        //     ),
+        //     focusedBorder: OutlineInputBorder(
+        //       borderRadius: BorderRadius.circular(12),
+        //       borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
+        //     ),
+        //   ),
+        // ),
+        CustomTextField(
           controller: controller.passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ThemeApp.grayscaleAltLight,
-            hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeApp.grayscaleLight),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
-            ),
-          ),
+          hintText: 'Enter your password!',
+          isPassword: true,
+          isPasswordVisible: controller.isPasswordVisible,
+          forceLightMode: true,
         ),
         const Gap(12),
 

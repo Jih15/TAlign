@@ -59,10 +59,14 @@ class LoginSignUpSwitcher extends StatelessWidget {
                       child: Text(
                         'Login',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          // fontWeight: FontWeight.w500,
+                          fontWeight: isLogin.value
+                              ? FontWeight.w500
+                              : FontWeight.w400,
                           fontSize: 14,
-                          color:
-                          isLogin.value ? Colors.black : Colors.grey[600],
+                          color: isLogin.value
+                              ? Colors.black
+                              : Colors.grey[600],
                         ),
                       ),
                     ),
@@ -76,10 +80,14 @@ class LoginSignUpSwitcher extends StatelessWidget {
                       child: Text(
                         'Sign Up',
                         style: TextStyle(
-                          fontWeight: FontWeight.w500,
+                          // fontWeight: FontWeight.w500,
+                          fontWeight: isLogin.value
+                              ? FontWeight.w400
+                              : FontWeight.w500,
                           fontSize: 14,
-                          color:
-                          isLogin.value ? Colors.grey[600] : Colors.black,
+                          color: isLogin.value
+                              ? Colors.grey[600]
+                              : Colors.black,
                         ),
                       ),
                     ),

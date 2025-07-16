@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/login/controllers/login_controller.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/theme_app.dart';
+import 'package:frontend/utils/widgets/custom_textfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
@@ -15,57 +16,29 @@ class LoginForm extends GetView<LoginController> {
       children: [
         const Gap(16),
         // Email Field
-        const Text('Username', style: TextStyle(color: Colors.black)),
-        const Gap(4),
-        TextFormField(
-          style: const TextStyle(color: Colors.black),
-          controller: controller.usernameController,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ThemeApp.grayscaleAltLight,
-            hintStyle: const TextStyle(fontSize: 12, color: Colors.white),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeApp.grayscaleLight),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
-            ),
+        const Text(
+          'Username',
+          style: TextStyle(
+            color: Colors.black,
           ),
+        ),
+        const Gap(4),
+        CustomTextField(
+          controller: controller.usernameController,
+          hintText: 'Enter your username!',
+          forceLightMode: true,
         ),
         const Gap(16),
 
         // Password Field
         const Text('Password', style: TextStyle(color: Colors.black)),
         const Gap(4),
-        TextFormField(
-          style: const TextStyle(color: Colors.black),
+        CustomTextField(
           controller: controller.passwordController,
-          obscureText: true,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: ThemeApp.grayscaleAltLight,
-            hintStyle: const TextStyle(fontSize: 12, color: Colors.black),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide.none,
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: ThemeApp.grayscaleLight),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: const BorderSide(color: ThemeApp.grayscaleLight, width: 1.5),
-            ),
-          ),
+          hintText: 'Enter your password!',
+          isPassword: true,
+          isPasswordVisible: controller.isPasswordVisible,
+          forceLightMode: true,
         ),
         const Gap(12),
 
@@ -104,7 +77,7 @@ class LoginForm extends GetView<LoginController> {
         const Gap(24),
 
         // Login Button
-        SizedBox(
+        Obx(() => SizedBox(
           width: double.infinity,
           child: ElevatedButton(
             style: ElevatedButton.styleFrom(
@@ -117,12 +90,21 @@ class LoginForm extends GetView<LoginController> {
             onPressed: () {
               controller.login();
             },
-            child: const Text(
-              'Login',
-              style: TextStyle(fontSize: 16, color: Colors.white),
-            ),
+            child: controller.isLoading.value
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+              : Text(
+                  'Login',
+                  style: TextStyle(fontSize: 16, color: Colors.white),
+                ),
           ),
-        ),
+        ))
       ],
     );
   }
