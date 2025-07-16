@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/app/data/controller/user_controller.dart';
 import 'package:frontend/app/modules/profile/widget/app_personalization.dart';
 import 'package:frontend/app/modules/profile/widget/profile_card.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
+import 'package:frontend/utils/services/token.dart';
 import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -111,7 +113,7 @@ class ProfileView extends GetView<ProfileController> {
                   ),
                   Gap(24),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: controller.logout,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 60,

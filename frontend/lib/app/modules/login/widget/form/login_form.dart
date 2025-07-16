@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/login/controllers/login_controller.dart';
+import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -14,11 +15,11 @@ class LoginForm extends GetView<LoginController> {
       children: [
         const Gap(16),
         // Email Field
-        const Text('Email', style: TextStyle(color: Colors.black)),
+        const Text('Username', style: TextStyle(color: Colors.black)),
         const Gap(4),
         TextFormField(
           style: const TextStyle(color: Colors.black),
-          controller: controller.emailController,
+          controller: controller.usernameController,
           decoration: InputDecoration(
             filled: true,
             fillColor: ThemeApp.grayscaleAltLight,
@@ -114,10 +115,7 @@ class LoginForm extends GetView<LoginController> {
               ),
             ),
             onPressed: () {
-              // final email = controller.emailController.text.trim();
-              // final password = controller.passwordController.text.trim();
-              // final remember = controller.rememberMe.value;
-              // print('Login: $email, $password, Remember me: $remember');
+              controller.login();
             },
             child: const Text(
               'Login',

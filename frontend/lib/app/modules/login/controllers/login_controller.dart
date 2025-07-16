@@ -1,16 +1,21 @@
 import 'package:flutter/cupertino.dart';
+import 'package:frontend/app/data/controller/auth_controller.dart';
+import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
-  //TODO: Implement LoginController
+  final AuthController _authController = Get.find<AuthController>();
+
   final RxString bgImagePath = ''.obs;
-  var isLogin = true.obs;
   final rememberMe = false.obs;
+  final isLoading = false.obs;
 
   final usernameController = TextEditingController();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  var isLogin = true.obs;
 
   void toggleTab(bool login){
     isLogin.value = login;
@@ -22,21 +27,30 @@ class LoginController extends GetxController {
         : ConstantAssets.imgBgLight;
   }
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
   @override
   void onClose() {
+    usernameController.dispose();
+    passwordController.dispose();
     super.onClose();
   }
 
-  void increment() => count.value++;
+  void login() async {
+    final username = usernameController.text.trim();
+    final password = passwordController.text.trim();
+
+    if (username.isEmpty || password.isEmpty) {
+      Get.snackbar('Error', 'Username dan password tidak boleh kosong!');
+      return;
+    }
+    isLoading.value = true;
+    try {
+      await _authController.login(username, password);
+      Get.snackbar('Success', 'Login berhasil!');
+      Get.offNamed(Routes.HOME);
+    } catch (e) {
+      Get.snackbar('Login gagal', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
 }

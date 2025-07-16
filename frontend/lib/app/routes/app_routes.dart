@@ -12,6 +12,7 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const SIMILARITY = _Paths.SIMILARITY;
   static const SUBMIT_PROJECT = _Paths.SUBMIT_PROJECT;
+  static const SPLASH = _Paths.SPLASH;
 }
 
 abstract class _Paths {
@@ -23,4 +24,5 @@ abstract class _Paths {
   static const LOGIN = '/login';
   static const SIMILARITY = '/similarity';
   static const SUBMIT_PROJECT = '/submit-project';
+  static const SPLASH = '/splash';
 }

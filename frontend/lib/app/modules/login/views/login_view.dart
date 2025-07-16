@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/login/widget/login_container.dart';
 import 'package:frontend/app/modules/login/widget/login_greeting.dart';
 import 'package:frontend/app/modules/login/widget/login_signup_switcher.dart';
+import 'package:frontend/utils/theme_app.dart';
 import 'package:frontend/utils/widgets/background_wrapper.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';

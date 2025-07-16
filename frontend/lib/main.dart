@@ -4,20 +4,14 @@ import 'package:frontend/services/translation_services.dart';
 import 'package:frontend/utils/constant_value.dart';
 import 'package:frontend/utils/theme_app.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'app/routes/app_pages.dart';
 
-void main() {
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-  runApp(
-    // GetMaterialApp(
-    //   title: "Application",
-    //   initialRoute: AppPages.INITIAL,
-    //   getPages: AppPages.routes,
-    // ),
-    MyApp()
-    // Test()
-  );
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -33,7 +27,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeApp.lightTheme,
       darkTheme: ThemeApp.darkTheme,
       themeMode: ThemeMode.system,
-      initialRoute: '/login',
+      initialRoute: Routes.LOGIN,
       getPages: AppPages.routes,
     );
   }

@@ -35,14 +35,17 @@ class HomeView extends GetView<HomeController> {
                 children: [
                   const CustomAppbar(),
                   const Gap(52),
-                  Text(
-                    'Hello, Jih!',
-                    style: TextStyle(
-                      fontSize: 32,
-                      fontWeight: FontWeight.bold,
-                      color: color.onSurface,
-                    ),
-                  ),
+                  Obx((){
+                    final username = controller.username ?? 'Guest';
+                    return Text(
+                      'Hello, $username!',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.bold,
+                        color: color.onSurface,
+                      ),
+                    );
+                  }),
                   Text(
                     'Help your project ideas with us :)',
                     style: TextStyle(

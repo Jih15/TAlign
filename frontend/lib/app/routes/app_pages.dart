@@ -10,6 +10,8 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/similarity/bindings/similarity_binding.dart';
 import '../modules/similarity/views/similarity_view.dart';
+import '../modules/splash/bindings/splash_binding.dart';
+import '../modules/splash/views/splash_view.dart';
 import '../modules/submitProject/bindings/submit_project_binding.dart';
 import '../modules/submitProject/views/submit_project_view.dart';
 import '../modules/test/bindings/test_binding.dart';
@@ -59,6 +61,11 @@ class AppPages {
       name: _Paths.SUBMIT_PROJECT,
       page: () => const SubmitProjectView(),
       binding: SubmitProjectBinding(),
+    ),
+    GetPage(
+      name: _Paths.SPLASH,
+      page: () => const SplashView(),
+      binding: SplashBinding(),
     ),
   ];
 }
