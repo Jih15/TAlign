@@ -43,6 +43,7 @@ class ProfileCard extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                Gap(4),
                 Text(
                   '2111082049',
                   style: TextStyle(
@@ -50,6 +51,7 @@ class ProfileCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
+                Gap(4),
                 Text(
                   'D4-Teknologi Rekayasa Perangkat Lunak',
                   style: TextStyle(
@@ -57,6 +59,7 @@ class ProfileCard extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
+                Gap(4),
                 Text(
                   'TRPL-4A',
                   style: TextStyle(

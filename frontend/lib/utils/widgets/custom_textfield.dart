@@ -1,149 +1,89 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  final String title;
-  final TextEditingController? controller;
-  final FocusNode? focusNode;
-  final bool isAutoCorrect;
-  final String? hintText;
-  final bool? isFilled;
-  final bool isReadOnly;
-  final bool isEnable;
-  final bool obscureText;
-  final TextAlign textAlign;
-  final TextCapitalization textCapitalization;
+class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final String hintText;
+  final bool isPassword;
+  final RxBool? isPasswordVisible;
   final TextInputType keyboardType;
-  final IconData? prefixIcon;
-  final Widget? suffixIcon;
-  final String? suffixText;
-  final bool? suffixIconState;
-  final TextInputAction? textInputAction;
-  final int? maxLines;
-  final int? maxLength;
-  final VoidCallback? onTap;
-  final ValueChanged<String>? onChanged;
-  final VoidCallback? onEditingComplete;
-  final FormFieldValidator<String>? validator;
-  final String? errorText;
+  final TextStyle? textStyle;
+  final TextStyle? hintStyle;
+  final bool forceLightMode;
 
-  const CustomTextFormField({
+  const CustomTextField({
     super.key,
     required this.controller,
-    required this.title,
-    this.focusNode,
-    this.isAutoCorrect = false,
-    this.hintText,
-    this.isFilled = false,
-    this.isReadOnly = false,
-    this.isEnable = true,
-    this.obscureText = false,
-    this.textAlign = TextAlign.start,
-    this.textCapitalization = TextCapitalization.words,
+    required this.hintText,
+    this.isPassword = false,
+    this.isPasswordVisible,
     this.keyboardType = TextInputType.text,
-    this.prefixIcon,
-    this.suffixIcon,
-    this.suffixText,
-    this.suffixIconState,
-    this.textInputAction = TextInputAction.next,
-    this.maxLines,
-    this.maxLength,
-    this.onTap,
-    this.onChanged,
-    this.onEditingComplete,
-    this.validator,
-    this.errorText,
+    this.textStyle,
+    this.hintStyle,
+    this.forceLightMode = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
+    final bool isDarkMode = forceLightMode
+        ? false
+        : Theme.of(context).brightness == Brightness.dark;
 
-    Widget? builderSuffixIcon() {
-      if (suffixIcon != null) {
-        return suffixIcon;
-      } else {
-        if (suffixIconState != null) {
-          if (suffixIconState!) {
-            return IconButton(
-              onPressed: () => controller?.clear(),
-              icon: const Icon(
-                Icons.cancel_outlined,
-              ),
-            );
-          }
-        }
-      }
-      return null;
+    final fillColor = isDarkMode ? Colors.grey[800]! : const Color(0xFFF5F5F5);
+    final activeBorderColor = isDarkMode ? Colors.white70 : const Color(0xFFD7680D);
+    final defaultBorderColor = isDarkMode ? Colors.white30 : Colors.grey.shade300;
+    final inputTextColor = isDarkMode ? Colors.white : Colors.black;
+    final hintTextColor = isDarkMode ? Colors.grey[400]! : Colors.black54;
+    final iconColor = isDarkMode ? Colors.white70 : Colors.black54;
+
+    final inputDecoration = InputDecoration(
+      filled: true,
+      fillColor: fillColor,
+      hintText: hintText,
+      hintStyle: hintStyle ?? TextStyle(fontSize: 14, color: hintTextColor),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(16),
+        borderSide: BorderSide.none,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: defaultBorderColor),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: activeBorderColor, width: 1.5),
+      ),
+    );
+
+    if (isPassword && isPasswordVisible != null) {
+      return Obx(() => TextFormField(
+        controller: controller,
+        obscureText: !isPasswordVisible!.value,
+        keyboardType: keyboardType,
+        cursorColor: inputTextColor,
+        style: textStyle ?? TextStyle(fontSize: 14,color: inputTextColor),
+        decoration: inputDecoration.copyWith(
+          suffixIcon: IconButton(
+            icon: Icon(
+              isPasswordVisible!.value
+                  ? Icons.visibility
+                  : Icons.visibility_off,
+              color: iconColor,
+            ),
+            onPressed: () => isPasswordVisible!.toggle(),
+          ),
+        ),
+      ));
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        TextFormField(
-          controller: controller,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          autocorrect: isAutoCorrect,
-          obscureText: obscureText,
-          textAlign: textAlign,
-          textCapitalization: textCapitalization,
-          maxLines: obscureText
-              ? 1
-              : (keyboardType == TextInputType.multiline ? null : maxLines),
-          maxLength:
-          (keyboardType == TextInputType.multiline) ? null : maxLength,
-          buildCounter: (context,
-              {required currentLength, required isFocused, maxLength}) =>
-          null,
-          readOnly: isReadOnly,
-          enabled: isEnable,
-          // decoration: InputDecoration(
-          //   hintText: hintText,
-          //   hintStyle: TextStyle(color: colorScheme.onSurface.withOpacity(0.6)),
-          //   filled: isFilled,
-          //   fillColor: colorScheme.surface,
-          //   errorMaxLines: 2,
-          //   errorText: errorText,
-          //   prefixIcon: (prefixIcon != null) ? Icon(prefixIcon, color: colorScheme.primary) : null,
-          //   suffixIcon: builderSuffixIcon(),
-          //   suffixText: suffixText,
-          //   suffixStyle: TextStyle(color: colorScheme.onSurface),
-          //   enabledBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(
-          //       color: colorScheme.onSurface.withValues(),
-          //     ),
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   focusedBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(
-          //       color: colorScheme.primary,
-          //       width: 1.8,
-          //     ),
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   errorBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(
-          //       color: colorScheme.error,
-          //     ),
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          //   focusedErrorBorder: OutlineInputBorder(
-          //     borderSide: BorderSide(
-          //       color: colorScheme.error,
-          //       width: 1.8,
-          //     ),
-          //     borderRadius: BorderRadius.circular(12),
-          //   ),
-          // ),
-          style: theme.textTheme.bodyMedium,
-          keyboardType: keyboardType,
-          textInputAction: textInputAction,
-          onTap: onTap,
-          onChanged: onChanged,
-          validator: validator,
-          onEditingComplete: onEditingComplete,
-        ),
-      ],
+    return TextFormField(
+      controller: controller,
+      obscureText: false,
+      keyboardType: keyboardType,
+      cursorColor: inputTextColor,
+      style: textStyle ?? TextStyle(fontSize: 14,color: inputTextColor),
+      decoration: inputDecoration,
     );
   }
 }
