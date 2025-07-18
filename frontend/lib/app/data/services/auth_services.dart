@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/app/data/models/auth/auth_model.dart';
 import 'package:frontend/app/data/models/auth/login_request_model.dart';
 import 'package:frontend/app/data/models/auth/login_response_model.dart';
 import 'package:frontend/utils/services/dio_client.dart';
@@ -21,7 +22,6 @@ class AuthServices {
       final loginResponse = LoginResponseModel.fromJson(response.data);
       print('[AUTH] Token diterima: ${loginResponse.accessToken}');
 
-      saveToken(loginResponse.accessToken);
       return loginResponse;
 
     } on DioException catch (e) {

@@ -23,4 +23,13 @@ class UserModel {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
+
+  Map<String, dynamic> toJson() => {
+    "user_id": userId,
+    "username": username,
+    "email": email,
+    "role": role,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
 }

@@ -13,7 +13,12 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchUser();
+
+    Future.microtask(() async {
+      if (_userController.user.value == null) {
+        await _userController.getMyData();
+      }
+    });
   }
 
   void setBgImg(bool isDarkMode) {
@@ -22,13 +27,27 @@ class HomeController extends GetxController {
         : ConstantAssets.imgBgLight;
   }
 
-  void fetchUser() async {
-    try {
-      await _userController.getMyData();
-    } catch (e) {
-      Get.snackbar('Error', e.toString());
-    }
-  }
-
   String? get username => _userController.user.value?.username;
 }
+
+
+
+// import 'package:frontend/app/data/controller/user_controller.dart';
+// import 'package:get/get.dart';
+//
+// class HomeController extends GetxController {
+//   final UserController _userController = Get.find<UserController>();
+//
+//   final RxString bgImagePath = ''.obs;
+//
+//   String? get username => _userController.user.value?.username;
+//
+//   @override
+//   void onInit() {
+//     super.onInit();
+//
+//     if (_userController.user.value == null){
+//       _userController.getMyData();
+//     }
+//   }
+// }

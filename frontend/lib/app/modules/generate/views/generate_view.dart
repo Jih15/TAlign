@@ -76,12 +76,66 @@ class GenerateView extends GetView<GenerateController> {
                   ),
                 ),
                 Gap(36),
-                CustomDropdownField(
-                  hint: 'Field', 
-                  items: fields, 
-                  value: selectedField.value, 
-                  onChanged: (val) => selectedField.value = val, 
-                  itemBuilder: (item) => Text(item, style: const TextStyle(color: Colors.white)),
+                Center(
+                  child: Column(
+                    children: [
+                      CustomDropdownField(
+                        hint: 'Field',
+                        items: fields,
+                        value: selectedField.value,
+                        onChanged: (val) => selectedField.value = val,
+                        itemBuilder: (item) => Text(
+                          item,
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                      Gap(20),
+                      CustomDropdownField(
+                        hint: 'Difficulty',
+                        items: difficulties,
+                        value: selectedDifficulty.value,
+                        onChanged: (val) => selectedDifficulty.value = val,
+                        itemBuilder: (item) => Text(
+                          item,
+                          style: TextStyle(
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                        ),
+                      ),
+                      Gap(56),
+                      Obx(() => SizedBox(
+                        // width: double.infinity,
+                        width: 360,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: const EdgeInsets.symmetric(vertical: 16),
+                            backgroundColor: const Color(0xFFD7680D),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                          ),
+                          onPressed: () {
+                            // controller.login();
+                          },
+                          child: controller.isLoading.value
+                              ? const SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
+                            ),
+                          )
+                              : Text(
+                            'Login',
+                            style: TextStyle(fontSize: 16, color: Colors.white),
+                          ),
+                        ),
+                      ))
+                    ],
+                  )
                 )
               ],
             ),

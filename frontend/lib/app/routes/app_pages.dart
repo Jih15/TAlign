@@ -32,11 +32,11 @@ class AppPages {
       page: () => HomeView(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: _Paths.TEST,
-      page: () => TestView(),
-      binding: TestBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.TEST,
+    //   page: () => TestView(),
+    //   binding: TestBinding(),
+    // ),
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfileView(),

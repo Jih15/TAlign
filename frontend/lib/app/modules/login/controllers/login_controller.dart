@@ -20,7 +20,7 @@ class LoginController extends GetxController {
   var isLogin = true.obs;
 
   void toggleTab(bool login){
-    isLogin.value = login;
+    isLogin.value = login;  
   }
 
   void setBgImg(bool isDarkMode) {
