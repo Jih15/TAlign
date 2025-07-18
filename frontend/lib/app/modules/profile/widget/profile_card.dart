@@ -4,7 +4,18 @@ import 'package:frontend/utils/theme_app.dart';
 import 'package:gap/gap.dart';
 
 class ProfileCard extends StatelessWidget {
-  const ProfileCard({super.key});
+  final String fullName;
+  final String nim;
+  final String majors;
+  final String studyProgram;
+
+  const ProfileCard({
+    super.key,
+    required this.fullName,
+    required this.nim,
+    required this.majors,
+    required this.studyProgram,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,57 +23,55 @@ class ProfileCard extends StatelessWidget {
 
     return Container(
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.width/3,
+      height: MediaQuery.of(context).size.width / 3,
       decoration: BoxDecoration(
         color: isDarkMode
-          ? ThemeApp.grayscaleMedium
-          : ThemeApp.grayscaleAltLight,
+            ? ThemeApp.grayscaleMedium
+            : ThemeApp.grayscaleAltLight,
         borderRadius: BorderRadius.circular(16),
         border: isDarkMode
-          ? null
-          : Border.all(color: Colors.grey.shade400, width: 1),
+            ? null
+            : Border.all(color: Colors.grey.shade400, width: 1),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(
-              ConstantAssets.imgProfile,
-            ),
-            Gap(20),
+            Image.asset(ConstantAssets.imgProfile),
+            const Gap(20),
             Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Zaqaul Fikri Aziz (Jih)',
-                  style: TextStyle(
+                  fullName,
+                  style: const TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Gap(4),
+                const Gap(4),
                 Text(
-                  '2111082049',
-                  style: TextStyle(
+                  nim,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Gap(4),
+                const Gap(4),
                 Text(
-                  'D4-Teknologi Rekayasa Perangkat Lunak',
-                  style: TextStyle(
+                  majors,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Gap(4),
+                const Gap(4),
                 Text(
-                  'TRPL-4A',
-                  style: TextStyle(
+                  studyProgram,
+                  style: const TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
                   ),

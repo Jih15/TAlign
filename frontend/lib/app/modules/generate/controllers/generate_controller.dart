@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class GenerateController extends GetxController {
   //TODO: Implement GenerateController
   final RxString bgImagePath = ''.obs;
+  final isLoading = false.obs;
 
   @override
   void onInit() {
