@@ -14,4 +14,25 @@ class StudentServices {
       throw Exception(errorMessage);
     }
   }
+
+  Future<StudentModel> updateMyData (int nim, String fullName, String majors, String studyProgram) async {
+    try {
+      final data = {
+        "nim": nim,
+        "full_name": fullName,
+        "majors": majors,
+        "study_program": studyProgram,
+      };
+
+      final response = await _dio.put(
+        'students/me',
+        data: data,
+      );
+      return StudentModel.fromJson(response.data);
+
+  } on DioException catch (e) {
+      final errorMessage = e.response?.data['detail'] ?? 'Error update student!';
+      throw Exception(errorMessage);
+    }
+  }
 }

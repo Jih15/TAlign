@@ -17,8 +17,6 @@ import '../modules/splash/views/splash_view.dart';
 import '../modules/submitProject/bindings/submit_project_binding.dart';
 import '../modules/submitProject/views/submit_project_view.dart';
 import '../modules/test/bindings/test_binding.dart';
-import '../modules/test/bindings/test_binding.dart';
-import '../modules/test/views/test_view.dart';
 import '../modules/test/views/test_view.dart';
 
 // ignore_for_file: constant_identifier_names

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/profile/widget/app_personalization.dart';
-import 'package:frontend/app/modules/profile/widget/profile_card.dart';
+import 'package:frontend/app/modules/profile/widget/profile_edit_container.dart';
+import 'package:frontend/app/modules/profile/widget/profile_image.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:frontend/utils/theme_app.dart';
@@ -39,75 +40,132 @@ class ProfileView extends GetView<ProfileController> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: kToolbarHeight * 2.5),
-              Text(
-                'Profile',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: color.onSurface,
-                ),
-              ),
-              const Gap(16),
-              ProfileCard(
-                fullName: controller.fullName,
-                nim: controller.nim.toString(),
-                majors: controller.majors ?? '',
-                studyProgram: controller.studyProgram ?? '',
-              ),
-              const Gap(24),
-              Text(
-                'App',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                  color: color.onSurface,
-                ),
-              ),
-              const Gap(16),
-              const AppPersonalization(),
-              const Gap(16),
-              _buildMenuItem(
-                context,
-                label: 'Feedback',
-                isDarkMode: isDarkMode,
-                onTap: () {},
-              ),
-              const Gap(16),
-              _buildMenuItem(
-                context,
-                label: 'Contact Us',
-                isDarkMode: isDarkMode,
-                onTap: () {},
-              ),
-              const Gap(16),
-              GestureDetector(
-                onTap: controller.logout,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 60,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: color.error,
-                    borderRadius: BorderRadius.circular(16),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: kToolbarHeight * 2),
+                Center(
+                  child: Column(
+                    children: [
+                      ProfileAvatarWithEditButton(
+                        imageUrl: ConstantAssets.imgProfile,
+                      ),
+                      const Gap(8),
+                      Obx(() => Text(
+                        '${controller.fullName} (${controller.username})',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                      Obx(() => Text(
+                        '${controller.nim}',
+                        style: const TextStyle(fontSize: 16),
+                      )),
+
+                      Gap(8),
+                      InkWell(
+                        onTap: (){
+                          showModalBottomSheet(
+                            context: context,
+                            isScrollControlled: true,
+                            backgroundColor: Colors.transparent,
+                            builder: (context) => const ProfileEditContainer(),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'Edit data',
+                              style: TextStyle(
+                                fontSize: 14,
+                                decoration: TextDecoration.underline,
+                                decorationColor: ThemeApp.greenSoft,
+                                color: ThemeApp.greenSoft,
+                              ),
+                            ),
+                            Gap(2),
+                            Icon(
+                              Icons.edit,
+                              size: 16,
+                              color: ThemeApp.greenSoft,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  child: const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Logout',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+                ),
+                // const Gap(24),
+                // Text(
+                //   'Profile',
+                //   style: TextStyle(
+                //     fontSize: 14,
+                //     fontWeight: FontWeight.w600,
+                //     color: color.onSurface,
+                //   ),
+                // ),
+                // const Gap(16),
+                // _buildMenuItem(
+                //   context,
+                //   label: 'Edit Profile',
+                //   isDarkMode: isDarkMode,
+                //   onTap: () {
+                //   },
+                // ),
+                const Gap(24),
+                Text(
+                  'App',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
+                    color: color.onSurface,
+                  ),
+                ),
+                const Gap(16),
+                const AppPersonalization(),
+                const Gap(16),
+                _buildMenuItem(
+                  context,
+                  label: 'Feedback',
+                  isDarkMode: isDarkMode,
+                  onTap: () {},
+                ),
+                const Gap(16),
+                _buildMenuItem(
+                  context,
+                  label: 'Contact Us',
+                  isDarkMode: isDarkMode,
+                  onTap: () {},
+                ),
+                const Gap(16),
+                GestureDetector(
+                  onTap: controller.logout,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: color.error,
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'Logout',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

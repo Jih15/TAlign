@@ -26,4 +26,14 @@ class UserController extends GetxController{
       print('[USER CONTROLLER] Error: $e]');
     }
   }
+
+  Future<void> updateMyUserData(String username, String email, String password) async {
+    try {
+      final user = await UserServices().updateMyData(username, email, password);
+      this.user.value = user;
+      print('[USER CONTROLLER] Data user berhasil diupdate');
+    } catch (e) {
+      print('[USER CONTROLLER] Error: $e]');
+    }
+  }
 }
