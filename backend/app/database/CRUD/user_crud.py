@@ -37,7 +37,8 @@ def create_user(db: Session, user: UserCreate, role: UserRoleEnum):
     if role == UserRoleEnum.MAHASISWA:
         student = Student(
             user_id=data.user_id,
-            full_name=data.username  
+            full_name=data.username,
+            majors = "Teknologi Informasi"  
         )
         db.add(student)
 
