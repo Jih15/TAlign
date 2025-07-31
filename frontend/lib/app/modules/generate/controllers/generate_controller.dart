@@ -1,12 +1,16 @@
 import 'dart:ui';
 import 'package:flutter/scheduler.dart';
+import 'package:frontend/app/data/models/gemini-generate/generate_judul_response_model.dart';
+import 'package:frontend/app/data/services/gemini_service.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class GenerateController extends GetxController {
-  //TODO: Implement GenerateController
+  final GeminiService _geminiServices = GeminiService();
+
   final RxString bgImagePath = ''.obs;
   final isLoading = false.obs;
+  final RxList<String> judulList = <String>[].obs;
 
   @override
   void onInit() {
@@ -17,7 +21,22 @@ class GenerateController extends GetxController {
 
   void setBgImg(bool isDarkMode) {
     bgImagePath.value = isDarkMode
-      ? ConstantAssets.imgBgDark
-      : ConstantAssets.imgBgLight;
+        ? ConstantAssets.imgBgDark
+        : ConstantAssets.imgBgLight;
   }
+
+  Future<void> generateJudul(String field) async {
+    try {
+      isLoading.value = true;
+      judulList.clear();
+
+      final GenerateResponseModel response = await _geminiServices.generateJudul(field);
+      judulList.assignAll(response.data); // List<String>
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 }

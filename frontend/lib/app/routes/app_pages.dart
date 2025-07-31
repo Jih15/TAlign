@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/generate/bindings/generate_binding.dart';
 import '../modules/generate/views/generate_view.dart';
+import '../modules/generateResult/bindings/generate_result_binding.dart';
+import '../modules/generateResult/views/generate_result_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/login/bindings/login_binding.dart';
@@ -15,6 +17,8 @@ import '../modules/splash/views/splash_view.dart';
 import '../modules/submitProject/bindings/submit_project_binding.dart';
 import '../modules/submitProject/views/submit_project_view.dart';
 import '../modules/test/bindings/test_binding.dart';
+import '../modules/test/bindings/test_binding.dart';
+import '../modules/test/views/test_view.dart';
 import '../modules/test/views/test_view.dart';
 
 // ignore_for_file: constant_identifier_names
@@ -32,15 +36,23 @@ class AppPages {
       page: () => HomeView(),
       binding: HomeBinding(),
     ),
-    // GetPage(
-    //   name: _Paths.TEST,
-    //   page: () => TestView(),
-    //   binding: TestBinding(),
-    // ),
+    GetPage(
+      name: _Paths.TEST,
+      page: () => TestView(),
+      binding: TestBinding(),
+    ),
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
+      // transition: Transition.leftToRight
+      children: [
+        GetPage(
+          name: _Paths.TEST,
+          page: () => const TestView(),
+          binding: TestBinding(),
+        ),
+      ],
     ),
     GetPage(
       name: _Paths.GENERATE,
@@ -66,6 +78,11 @@ class AppPages {
       name: _Paths.SPLASH,
       page: () => const SplashView(),
       binding: SplashBinding(),
+    ),
+    GetPage(
+      name: _Paths.GENERATE_RESULT,
+      page: () => const GenerateResultView(),
+      binding: GenerateResultBinding(),
     ),
   ];
 }

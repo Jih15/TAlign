@@ -112,7 +112,7 @@ class FeatureCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.background,
+                            color: Theme.of(context).colorScheme.surface,
                             height: 1.0
                           ),
                         ),
@@ -120,40 +120,43 @@ class FeatureCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: gap),
-                  Container(
-                    width: cardWidth,
-                    height: (cardHeight - gap) / 2,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: color.onTertiary,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          padding: const EdgeInsets.all(0),
-                          decoration: BoxDecoration(
-                            color: color.onTertiaryFixedVariant,
-                            shape: BoxShape.circle,
+                  InkWell(
+                    onTap: () => Get.toNamed(Routes.SUBMIT_PROJECT),
+                    child: Container(
+                      width: cardWidth,
+                      height: (cardHeight - gap) / 2,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: color.onTertiary,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            padding: const EdgeInsets.all(0),
+                            decoration: BoxDecoration(
+                              color: color.onTertiaryFixedVariant,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              ConstantAssets.icoSubmitPr
+                            ),
                           ),
-                          child: Image.asset(
-                            ConstantAssets.icoSubmitPr
+                          const Spacer(),
+                          Text(
+                            'Submit\nProject Ideas',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                              height: 1.0
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Submit\nProject Ideas',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white,
-                            height: 1.0
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],

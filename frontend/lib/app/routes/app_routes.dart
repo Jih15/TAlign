@@ -13,6 +13,7 @@ abstract class Routes {
   static const SIMILARITY = _Paths.SIMILARITY;
   static const SUBMIT_PROJECT = _Paths.SUBMIT_PROJECT;
   static const SPLASH = _Paths.SPLASH;
+  static const GENERATE_RESULT = _Paths.GENERATE_RESULT;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const SIMILARITY = '/similarity';
   static const SUBMIT_PROJECT = '/submit-project';
   static const SPLASH = '/splash';
+  static const GENERATE_RESULT = '/generate-result';
 }

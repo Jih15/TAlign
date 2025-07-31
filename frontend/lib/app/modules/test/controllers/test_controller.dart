@@ -1,23 +1,7 @@
 import 'package:get/get.dart';
 
 class TestController extends GetxController {
-  //TODO: Implement TestController
-
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  void testSnackbar(){
+    Get.snackbar('Test', 'Test Snackbar');
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

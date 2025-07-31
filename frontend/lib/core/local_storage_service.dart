@@ -51,6 +51,7 @@
 
 import 'package:frontend/app/data/models/table/student_model.dart';
 import 'package:frontend/app/data/models/table/user_model.dart';
+import 'package:frontend/app/data/services/user_services.dart';
 import 'package:get_storage/get_storage.dart';
 
 class LocalStorageService {
@@ -99,7 +100,7 @@ class LocalStorageService {
     if (data is Map) {
       return StudentModel.fromJson(Map<String, dynamic>.from(data));
     } else {
-      print('[STUDENT] Data tidak valid');
+      print('[STUDENT] Data belum didapatkan');
       return null;
     }
   }
@@ -111,4 +112,28 @@ class LocalStorageService {
     _box.erase();
     print('[LOCAL STORAGE] Data berhasil dihapus');
   }
+
+
+  static Future<bool> isAuthenticated() async {
+    final token = getToken();
+    if (token == null || token.isEmpty) {
+      print('[AUTH] Tidak ada token, hapus user & student');
+      removeUser();
+      removeStudent();
+      return false;
+    }
+
+    try {
+      await UserServices().getMyData();
+      print('[AUTH] Token valid, user authenticated');
+      return true;
+    } catch (e) {
+      print('[AUTH] Token tidak valid atau kadaluarsa');
+      removeToken();
+      removeStudent();
+      removeUser();
+      return false;
+    }
+  }
+
 }

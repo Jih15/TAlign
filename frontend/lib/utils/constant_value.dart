@@ -3,7 +3,7 @@ abstract class ConstantsValues {
 
   static const role = 'role';
 
-  static const baseUrl = 'http://192.168.1.4:8000/';
+  static const baseUrl = 'http://192.168.1.3:8000/';
 
   // static const isFirstUsingApp = 'isFirstUsingApp';
 }

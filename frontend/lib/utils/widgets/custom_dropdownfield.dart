@@ -53,7 +53,7 @@ class CustomDropdownField<T> extends StatelessWidget {
 
       /// Button style (field)
       buttonStyleData: ButtonStyleData(
-        height: 56,
+        height: 48,
         padding: const EdgeInsets.only(left: 0, right: 16),
         decoration: BoxDecoration(
           color: isDarkMode

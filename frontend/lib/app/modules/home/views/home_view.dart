@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/home/widget/custom_appbar.dart';
 import 'package:frontend/app/modules/home/widget/feature_card.dart';
+import 'package:frontend/app/routes/app_pages.dart';
+import 'package:frontend/utils/widgets/background_wrapper.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import '../controllers/home_controller.dart';
@@ -11,56 +13,56 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      controller.setBgImg(isDarkMode);
-    });
-
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      body: Obx(() {
-        final imagePath = controller.bgImagePath.value;
-        return Stack(
-          children: [
-            if (imagePath.isNotEmpty)
-              Image.asset(
-                imagePath,
-                fit: BoxFit.cover,
-              ),
-            Padding(
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const CustomAppbar(),
-                  const Gap(52),
-                  Obx((){
-                    final username = controller.username ?? 'Guest';
-                    return Text(
-                      'Hello, $username!',
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: color.onSurface,
-                      ),
-                    );
-                  }),
-                  Text(
-                    'Help your project ideas with us :)',
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: color.onSurface,
-                    ),
+    return BackgroundWrapper(
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        extendBodyBehindAppBar: true,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 12.0, right: 12.0, top: 12.0),
+            child: CustomAppbar(),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Gap(kToolbarHeight * 2),
+              Obx(() {
+                final username = controller.username ?? 'Guest';
+                return Text(
+                  'Hello, $username!',
+                  style: TextStyle(
+                    fontSize: 32,
+                    fontWeight: FontWeight.bold,
+                    color: color.onSurface,
                   ),
-                  const Gap(28),
-                  const FeatureCard(),
-                ],
+                );
+              }),
+              Text(
+                'Help your project ideas with us :)',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: color.onSurface,
+                ),
               ),
-            )
-          ],
-        );
-      }),
+              const Gap(28),
+              const FeatureCard(),
+              Gap(20),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white
+                ),
+                onPressed: () => Get.toNamed(Routes.TEST), 
+                child: Text('Go to test arena'),
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

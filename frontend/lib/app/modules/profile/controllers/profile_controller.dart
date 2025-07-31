@@ -6,24 +6,47 @@ import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/services/translation_services.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:frontend/core/local_storage_service.dart';
-import 'package:frontend/utils/services/token.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class ProfileController extends GetxController {
   final StudentController _studentController = Get.find<StudentController>();
 
   final RxString bgImagePath = ''.obs;
   final RxString selectedLanguage = 'English'.obs;
-  final RxString selectedTheme = ''.obs;
+  final RxString selectedTheme = 'System'.obs; // ✅ Default agar tidak kosong
 
   @override
   void onInit() {
     final brightness = SchedulerBinding.instance.platformDispatcher.platformBrightness;
     setBgImg(brightness == Brightness.dark);
-    super.onInit();
-    // fetchStudent();
-    if (_studentController.student.value == null){
+
+    final storedLang = GetStorage().read('language');
+    if (storedLang != null) {
+      selectedLanguage.value = storedLang;
+    }
+
+    final storedTheme = GetStorage().read('theme');
+    if (storedTheme != null) {
+      selectedTheme.value = storedTheme;
+    }
+
+    if (_studentController.student.value == null) {
       _studentController.getMyData();
+    }
+
+    super.onInit();
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (selectedLanguage.isNotEmpty) {
+      TranslationService.changeLocale(selectedLanguage.value);
+    }
+
+    if (selectedTheme.isNotEmpty) {
+      changeTheme(selectedTheme.value);
     }
   }
 
@@ -36,6 +59,7 @@ class ProfileController extends GetxController {
   void changeLanguage(String lang){
     selectedLanguage.value = lang;
     TranslationService.changeLocale(lang);
+    GetStorage().write('language', lang);
   }
 
   void changeTheme(String theme){
@@ -47,6 +71,7 @@ class ProfileController extends GetxController {
     } else if (theme == 'Dark'){
       Get.changeThemeMode(ThemeMode.dark);
     }
+    GetStorage().write('theme', theme);
   }
 
   String get fullName => _studentController.student.value?.fullName ?? 'Student';
