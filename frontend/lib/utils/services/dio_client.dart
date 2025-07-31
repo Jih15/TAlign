@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
+import 'package:frontend/core/local_storage_service.dart';
 import 'package:frontend/utils/constant_value.dart';
-import 'token.dart';
 
 final Dio dioClient = Dio(
   BaseOptions(
     baseUrl: ConstantsValues.baseUrl,
-    connectTimeout: const Duration(seconds: 5),
-    receiveTimeout: const Duration(seconds: 5),
+    connectTimeout: const Duration(seconds: 30),
+    receiveTimeout: const Duration(seconds: 30),
     headers: {
       'Content-Type': 'application/json',
     },
@@ -15,7 +15,7 @@ final Dio dioClient = Dio(
   ..interceptors.add(
     InterceptorsWrapper(
       onRequest: (options, handler) {
-        final token = getToken();
+        final token = LocalStorageService.getToken();
         if (token != null) {
           print('[DIO] Menyisipkan token: Bearer $token');
           options.headers['Authorization'] = 'Bearer $token';

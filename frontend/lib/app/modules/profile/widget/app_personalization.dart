@@ -27,90 +27,90 @@ class AppPersonalization extends GetView<ProfileController> {
         mainAxisSize: MainAxisSize.min,
         children: [
           /// Language Selector
-          GestureDetector(
-            onTap: () {
-              Get.dialog(
-                barrierDismissible: false,
-                Dialog(
-                  backgroundColor: Colors.transparent,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: isDarkMode
-                          ? ThemeApp.grayscaleMedium
-                          : ThemeApp.grayscaleAltLight,
-                      borderRadius: BorderRadius.circular(16),
-                      border: isDarkMode
-                          ? null
-                          : Border.all(color: Colors.grey.shade400, width: 1),
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Image.asset(
-                          isDarkMode
-                              ? ConstantAssets.icoLanguageDark
-                              : ConstantAssets.icoLanguageLight,
-                          width: 24,
-                          height: 24,
-                        ),
-                        const Gap(8),
-                        Text(
-                          'Language'.tr,
-                          style: const TextStyle(fontSize: 14),
-                        ),
-                        const Gap(8),
-                        const Divider(),
-                        ...['English', 'Bahasa Indonesia'].map((lang) {
-                          return ListTile(
-                            title: Text(lang),
-                            onTap: () {
-                              controller.changeLanguage(lang);
-                              Get.back();
-                            },
-                          );
-                        }),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12),
-              child: Row(
-                children: [
-                  Image.asset(
-                    isDarkMode
-                        ? ConstantAssets.icoLanguageDark
-                        : ConstantAssets.icoLanguageLight,
-                    width: 24,
-                    height: 24,
-                  ),
-                  const Gap(16),
-                  Expanded(
-                    child: Text(
-                      'Language'.tr,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Text(
-                    controller.selectedLanguage.value,
-                    style: const TextStyle(fontSize: 14),
-                  ),
-                  const Gap(8),
-                  Image.asset(
-                    ConstantAssets.icoArrowRight,
-                    width: 16,
-                    height: 16,
-                  ),
-                ],
-              ),
-            ),
-          ),
+          // GestureDetector(
+          //   onTap: () {
+          //     Get.dialog(
+          //       barrierDismissible: false,
+          //       Dialog(
+          //         backgroundColor: Colors.transparent,
+          //         child: Container(
+          //           padding: const EdgeInsets.all(16),
+          //           decoration: BoxDecoration(
+          //             color: isDarkMode
+          //                 ? ThemeApp.grayscaleMedium
+          //                 : ThemeApp.grayscaleAltLight,
+          //             borderRadius: BorderRadius.circular(16),
+          //             border: isDarkMode
+          //                 ? null
+          //                 : Border.all(color: Colors.grey.shade400, width: 1),
+          //           ),
+          //           child: Column(
+          //             mainAxisSize: MainAxisSize.min,
+          //             children: [
+          //               Image.asset(
+          //                 isDarkMode
+          //                     ? ConstantAssets.icoLanguageDark
+          //                     : ConstantAssets.icoLanguageLight,
+          //                 width: 24,
+          //                 height: 24,
+          //               ),
+          //               const Gap(8),
+          //               Text(
+          //                 'Language'.tr,
+          //                 style: const TextStyle(fontSize: 14),
+          //               ),
+          //               const Gap(8),
+          //               const Divider(),
+          //               ...['English', 'Bahasa Indonesia'].map((lang) {
+          //                 return ListTile(
+          //                   title: Text(lang),
+          //                   onTap: () {
+          //                     controller.changeLanguage(lang);
+          //                     Get.back();
+          //                   },
+          //                 );
+          //               }),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          //   child: Padding(
+          //     padding: const EdgeInsets.symmetric(vertical: 12),
+          //     child: Row(
+          //       children: [
+          //         Image.asset(
+          //           isDarkMode
+          //               ? ConstantAssets.icoLanguageDark
+          //               : ConstantAssets.icoLanguageLight,
+          //           width: 24,
+          //           height: 24,
+          //         ),
+          //         const Gap(16),
+          //         Expanded(
+          //           child: Text(
+          //             'Language'.tr,
+          //             style: const TextStyle(
+          //               fontSize: 14,
+          //               fontWeight: FontWeight.w600,
+          //             ),
+          //           ),
+          //         ),
+          //         Text(
+          //           controller.selectedLanguage.value,
+          //           style: const TextStyle(fontSize: 14),
+          //         ),
+          //         const Gap(8),
+          //         Image.asset(
+          //           ConstantAssets.icoArrowRight,
+          //           width: 16,
+          //           height: 16,
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          // ),
 
           /// Theme Selector
           GestureDetector(

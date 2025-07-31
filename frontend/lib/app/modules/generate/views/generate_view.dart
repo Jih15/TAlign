@@ -1,5 +1,5 @@
-
 import 'package:flutter/material.dart';
+import 'package:frontend/app/modules/generateResult/controllers/generate_result_controller.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:frontend/utils/widgets/custom_dropdownfield.dart';
@@ -15,7 +15,7 @@ class GenerateView extends GetView<GenerateController> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final fields = ['AI', 'Web', 'Mobile', 'IoT'];
+    final fields = ['Artificial Intelligence', 'Web Development', 'Mobile Development', 'Internet of Things' , 'Cybersecurity' , 'Data Science' , 'Machine Learning' , 'Blockchain'];
     final difficulties = ['Easy', 'Medium', 'Hard'];
 
     final selectedField = RxnString();
@@ -57,7 +57,7 @@ class GenerateView extends GetView<GenerateController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: kToolbarHeight *3,),
+                SizedBox(height: kToolbarHeight *2.4,),
                 Text(
                   'Generate Project\nIdeas',
                   textAlign: TextAlign.left,
@@ -116,8 +116,18 @@ class GenerateView extends GetView<GenerateController> {
                               borderRadius: BorderRadius.circular(50),
                             ),
                           ),
-                          onPressed: () {
-                            // controller.login();
+                          onPressed: () async {
+                            if (selectedField.value == null) {
+                              Get.snackbar('Oops', 'Field harus dipilih');
+                              return;
+                            }
+
+                            await controller.generateJudul(selectedField.value!);
+
+                            final resultController = Get.put(GenerateResultController());
+                            resultController.setJudul(controller.judulList);
+
+                            Get.toNamed(Routes.GENERATE_RESULT);
                           },
                           child: controller.isLoading.value
                               ? const SizedBox(
@@ -129,7 +139,7 @@ class GenerateView extends GetView<GenerateController> {
                             ),
                           )
                               : Text(
-                            'Login',
+                            'Generate',
                             style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),

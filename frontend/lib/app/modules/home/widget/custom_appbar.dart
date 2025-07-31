@@ -106,7 +106,9 @@ class CustomAppbar extends StatelessWidget {
 
           /// === Right: Profile ===
           InkWell(
-            onTap: () => Get.toNamed(Routes.PROFILE),
+            onTap: () => Get.toNamed(
+              Routes.PROFILE,
+            ),
             child: Container(
             width: profileSize,
             height: profileSize,

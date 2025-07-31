@@ -98,7 +98,6 @@ class SignUpForm extends GetView<LoginController> {
 
         Gap(24),
 
-        // Login Button
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -110,10 +109,7 @@ class SignUpForm extends GetView<LoginController> {
               ),
             ),
             onPressed: () {
-              // final email = controller.emailController.text.trim();
-              // final password = controller.passwordController.text.trim();
-              // final remember = controller.rememberMe.value;
-              // // print('Login: $email, $password, Remember me: $remember');
+              controller.signUp();
             },
             child: const Text(
               'Sign Up',
@@ -121,6 +117,8 @@ class SignUpForm extends GetView<LoginController> {
             ),
           ),
         ),
+
+
       ],
     );
   }

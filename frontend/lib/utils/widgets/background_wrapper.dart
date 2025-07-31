@@ -18,9 +18,13 @@ class BackgroundWrapper extends StatelessWidget {
         Container(
           color: isDark ? Colors.black : Colors.white,
         ),
-        Image.asset(
-          imagePath,
-          fit: BoxFit.cover,
+        AnimatedSwitcher(
+          duration: Duration(milliseconds: 150),
+          child: Image.asset(
+            imagePath,
+            fit: BoxFit.cover,
+            key: ValueKey<bool>(isDark),
+          ),
         ),
         child,
       ],

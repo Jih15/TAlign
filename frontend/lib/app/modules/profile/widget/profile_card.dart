@@ -38,7 +38,15 @@ class ProfileCard extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(ConstantAssets.imgProfile),
+            Container(
+              width: 90,
+              height: 90,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(500)
+              ),
+              child: Image.asset(ConstantAssets.imgProfile),
+            ),
             const Gap(20),
             Column(
               mainAxisSize: MainAxisSize.min,
