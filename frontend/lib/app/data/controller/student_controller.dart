@@ -26,4 +26,15 @@ class StudentController extends GetxController{
       print('[STUDENT CONTROLLER] Error: $e]');
     }
   }
+
+  Future<void> updateMyStudentData(int nim, String fullName, String majors, String studyProgram) async {
+    try {
+      final student = await StudentServices().updateMyData(nim, fullName, majors, studyProgram);
+      this.student.value = student;
+      print('[STUDENT CONTROLLER] Data student berhasil diupdate');
+    } catch (e) {
+      print('[STUDENT CONTROLLER] Error: $e]');
+    }
+  }
+
 }

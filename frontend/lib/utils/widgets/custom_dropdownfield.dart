@@ -9,6 +9,16 @@ class CustomDropdownField<T> extends StatelessWidget {
   final void Function(T?) onChanged;
   final Widget Function(T) itemBuilder;
 
+  // Tambahan parameter opsional untuk customisasi warna
+  final Color? fillColor;
+  final Color? borderColor;
+  final Color? focusedBorderColor;
+  final Color? textColor;
+  final Color? hintTextColor;
+  final Color? dropdownBackgroundColor;
+  final Color? overlayColor;
+  final Color? iconColor;
+
   const CustomDropdownField({
     super.key,
     required this.hint,
@@ -16,11 +26,35 @@ class CustomDropdownField<T> extends StatelessWidget {
     required this.value,
     required this.onChanged,
     required this.itemBuilder,
+    this.fillColor,
+    this.borderColor,
+    this.focusedBorderColor,
+    this.textColor,
+    this.hintTextColor,
+    this.dropdownBackgroundColor,
+    this.overlayColor,
+    this.iconColor,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    // Default values berdasarkan mode tema
+    final Color defaultFillColor =
+    isDarkMode ? ThemeApp.grayscaleMedium : ThemeApp.grayscaleAltLight;
+    final Color defaultBorderColor =
+    isDarkMode ? Colors.white30 : Colors.grey.shade300;
+    final Color defaultFocusedBorderColor =
+    isDarkMode ? Colors.white70 : const Color(0xFFD7680D);
+    final Color defaultTextColor = isDarkMode ? Colors.white : Colors.black;
+    final Color defaultHintTextColor =
+    isDarkMode ? Colors.white60 : Colors.grey[700]!;
+    final Color defaultDropdownBgColor =
+    isDarkMode ? Colors.grey[850]! : Colors.white;
+    final Color defaultOverlayColor =
+    isDarkMode ? Colors.white10 : Colors.black12;
+    final Color defaultIconColor = isDarkMode ? Colors.white : Colors.black;
 
     return DropdownButtonFormField2<T>(
       value: value,
@@ -33,7 +67,7 @@ class CustomDropdownField<T> extends StatelessWidget {
           value: item,
           child: DefaultTextStyle(
             style: TextStyle(
-              color: isDarkMode ? Colors.white : Colors.black,
+              color: textColor ?? defaultTextColor,
               fontSize: 14,
             ),
             child: itemBuilder(item),
@@ -41,13 +75,12 @@ class CustomDropdownField<T> extends StatelessWidget {
         );
       }).toList(),
 
-
       /// Hint
       hint: Text(
         hint,
         style: TextStyle(
           fontSize: 14,
-          color: isDarkMode ? Colors.white60 : Colors.grey[700],
+          color: hintTextColor ?? defaultHintTextColor,
         ),
       ),
 
@@ -56,15 +89,11 @@ class CustomDropdownField<T> extends StatelessWidget {
         height: 48,
         padding: const EdgeInsets.only(left: 0, right: 16),
         decoration: BoxDecoration(
-          color: isDarkMode
-              ? ThemeApp.grayscaleMedium
-              : ThemeApp.grayscaleAltLight,
+          color: fillColor ?? defaultFillColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isDarkMode
-                ? Colors.transparent
-                : Colors.grey.shade300,
-          )
+            color: borderColor ?? defaultBorderColor,
+          ),
         ),
         elevation: 0,
       ),
@@ -73,7 +102,7 @@ class CustomDropdownField<T> extends StatelessWidget {
       iconStyleData: IconStyleData(
         icon: Icon(
           Icons.keyboard_arrow_down_rounded,
-          color: isDarkMode ? Colors.white : Colors.black,
+          color: iconColor ?? defaultIconColor,
         ),
         iconSize: 28,
       ),
@@ -83,13 +112,13 @@ class CustomDropdownField<T> extends StatelessWidget {
         maxHeight: 150,
         padding: EdgeInsets.zero,
         decoration: BoxDecoration(
-          color: isDarkMode ? Colors.grey[850] : Colors.white,
+          color: dropdownBackgroundColor ?? defaultDropdownBgColor,
           borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
               color: Colors.black26,
               blurRadius: 12,
-              offset: Offset(0, 4),
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -101,7 +130,7 @@ class CustomDropdownField<T> extends StatelessWidget {
       menuItemStyleData: MenuItemStyleData(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         overlayColor: WidgetStatePropertyAll(
-          isDarkMode ? Colors.white10 : Colors.black12,
+          overlayColor ?? defaultOverlayColor,
         ),
       ),
 
@@ -117,17 +146,13 @@ class CustomDropdownField<T> extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: isDarkMode
-                ? Colors.white30
-                : Colors.grey.shade300,
+            color: borderColor ?? defaultBorderColor,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(
-            color: isDarkMode
-                ? Colors.white70
-                : const Color(0xFFD7680D),
+            color: focusedBorderColor ?? defaultFocusedBorderColor,
             width: 1.5,
           ),
         ),
@@ -135,9 +160,7 @@ class CustomDropdownField<T> extends StatelessWidget {
 
       /// Text style (selected item)
       style: TextStyle(
-        color: isDarkMode
-            ? Colors.white
-            : Colors.black,
+        color: textColor ?? defaultTextColor,
         fontSize: 14,
       ),
     );

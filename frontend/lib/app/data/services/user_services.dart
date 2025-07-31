@@ -14,4 +14,26 @@ class UserServices {
       throw Exception(errorMessage);
     }
   }
+
+  Future<UserModel> updateMyData (String username, String email, String password) async {
+    try {
+      final data = {
+        "username": username,
+        "email": email,
+      };
+      if (password.isNotEmpty) {
+        data["password"] = password;
+      }
+
+
+      final response = await _dio.put(
+        'users/me',
+        data: data,
+      );
+      return UserModel.fromJson(response.data);
+    } on DioException catch (e) {
+      final errorMessage = e.response?.data['detail'] ?? 'Error update user!';
+      throw Exception(errorMessage);
+    }
+  }
 }

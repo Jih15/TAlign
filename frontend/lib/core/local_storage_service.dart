@@ -110,12 +110,16 @@ class LocalStorageService {
   //CLEAR ALL
   static void clearAll(){
     _box.erase();
+    removeToken();
+    removeUser();
+    removeStudent();
     print('[LOCAL STORAGE] Data berhasil dihapus');
   }
 
 
   static Future<bool> isAuthenticated() async {
     final token = getToken();
+
     if (token == null || token.isEmpty) {
       print('[AUTH] Tidak ada token, hapus user & student');
       removeUser();

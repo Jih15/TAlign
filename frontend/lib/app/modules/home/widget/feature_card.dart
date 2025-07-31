@@ -74,49 +74,51 @@ class FeatureCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: gap),
-
               /// === Kanan: Dua Card Kecil (Stacked Column) ===
               Column(
                 children: [
-                  Container(
-                    width: cardWidth,
-                    height: (cardHeight - gap) / 2,
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: color.onSurface,
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: isDarkMode
-                                ? ThemeApp.grayscaleLighter
-                                : ThemeApp.grayscaleMedium,
-                            shape: BoxShape.circle,
+                  InkWell(
+                    onTap: () => Get.toNamed(Routes.SIMILARITY),
+                    child: Container(
+                      width: cardWidth,
+                      height: (cardHeight - gap) / 2,
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: color.onSurface,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 48,
+                            height: 48,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? ThemeApp.grayscaleLighter
+                                  : ThemeApp.grayscaleMedium,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.asset(
+                              isDarkMode
+                                  ? ConstantAssets.icoSimilarityDark
+                                  : ConstantAssets.icoSimilarityLight,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                          child: Image.asset(
-                            isDarkMode
-                                ? ConstantAssets.icoSimilarityDark
-                                : ConstantAssets.icoSimilarityLight,
-                            fit: BoxFit.cover,
+                          const Spacer(),
+                          Text(
+                            'Similarity\nCheck',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                              color: Theme.of(context).colorScheme.surface,
+                              height: 1.0
+                            ),
                           ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          'Similarity\nCheck',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.surface,
-                            height: 1.0
-                          ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   SizedBox(height: gap),

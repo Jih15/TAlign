@@ -24,11 +24,6 @@ class LoginController extends GetxController {
     isLogin.value = login;  
   }
 
-  void setBgImg(bool isDarkMode) {
-    bgImagePath.value = isDarkMode
-        ? ConstantAssets.imgBgDark
-        : ConstantAssets.imgBgLight;
-  }
 
   @override
   void onClose() {
