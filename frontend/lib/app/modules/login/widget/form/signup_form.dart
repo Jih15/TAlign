@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/login/controllers/login_controller.dart';
-import 'package:frontend/utils/theme_app.dart';
 import 'package:frontend/utils/widgets/custom_textfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -62,41 +61,40 @@ class SignUpForm extends GetView<LoginController> {
           isPasswordVisible: controller.isPasswordVisible,
           forceLightMode: true,
         ),
-        const Gap(12),
 
         // Remember me + Forgot Password
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Obx(() => Row(
-              children: [
-                Checkbox(
-                  side: BorderSide(
-                      color: Color.fromRGBO(217, 217, 217, 1)
-                  ),
-                  value: controller.rememberMe.value,
-                  onChanged: (val) => controller.rememberMe.value = val ?? false,
-                ),
-                const Text('Remember Me', style: TextStyle(color: Colors.grey)),
-              ],
-            )),
-            Spacer(),
-            TextButton(
-              onPressed: () {
-                // Forgot password logic
-              },
-              child: const Text(
-                'Forgot Password',
-                style: TextStyle(
-                  color: Color(0xFF2F6C5D),
-                  decoration: TextDecoration.underline,
-                ),
-              ),
-            ),
-          ],
-        ),
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        //   children: [
+        //     Obx(() => Row(
+        //       children: [
+        //         Checkbox(
+        //           side: BorderSide(
+        //               color: Color.fromRGBO(217, 217, 217, 1)
+        //           ),
+        //           value: controller.rememberMe.value,
+        //           onChanged: (val) => controller.rememberMe.value = val ?? false,
+        //         ),
+        //         const Text('Remember Me', style: TextStyle(color: Colors.grey)),
+        //       ],
+        //     )),
+        //     Spacer(),
+        //     TextButton(
+        //       onPressed: () {
+        //         // Forgot password logic
+        //       },
+        //       child: const Text(
+        //         'Forgot Password',
+        //         style: TextStyle(
+        //           color: Color(0xFF2F6C5D),
+        //           decoration: TextDecoration.underline,
+        //         ),
+        //       ),
+        //     ),
+        //   ],
+        // ),
 
-        Gap(24),
+        Gap(48),
 
         SizedBox(
           width: double.infinity,

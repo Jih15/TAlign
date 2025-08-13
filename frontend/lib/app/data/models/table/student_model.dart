@@ -1,6 +1,6 @@
 class StudentModel {
   final int? nim;
-  final String fullName;
+  final String? fullName;
   final String? majors;
   final String? studyProgram;
   final int? studentId;
@@ -10,7 +10,7 @@ class StudentModel {
 
   StudentModel({
     this.nim,
-    required this.fullName,
+    this.fullName,
     this.majors,
     this.studyProgram,
     this.studentId,

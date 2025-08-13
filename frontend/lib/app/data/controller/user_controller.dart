@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:frontend/app/data/models/table/user_model.dart';
 import 'package:frontend/app/data/services/user_services.dart';
 import 'package:frontend/core/local_storage_service.dart';
@@ -27,13 +29,34 @@ class UserController extends GetxController{
     }
   }
 
-  Future<void> updateMyUserData(String username, String email, String password) async {
+  // Future<void> updateMyUserData(String profilePic ,String username, String email, String password) async {
+  //   try {
+  //     final user = await UserServices().updateMyData(username, email, password, profilePic);
+  //     this.user.value = user;
+  //     print('[USER CONTROLLER] Data user berhasil diupdate');
+  //   } catch (e) {
+  //     print('[USER CONTROLLER] Error: $e]');
+  //   }
+  // }
+  Future<void> updateMyUserData(
+      File? profilePic,
+      String username,
+      String email,
+      String password,
+      ) async {
     try {
-      final user = await UserServices().updateMyData(username, email, password);
+      final user = await UserServices().updateMyData(
+        profilePic:  profilePic,
+        username: username,
+        email: email,
+        password: password,
+      );
       this.user.value = user;
-      print('[USER CONTROLLER] Data user berhasil diupdate');
+      print('[USER CONTROLLER] User data updated');
     } catch (e) {
-      print('[USER CONTROLLER] Error: $e]');
+      print('[USER CONTROLLER] Error: $e');
     }
   }
+
+
 }

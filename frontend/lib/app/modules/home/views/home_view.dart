@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/home/widget/custom_appbar.dart';
 import 'package:frontend/app/modules/home/widget/feature_card.dart';
+import 'package:frontend/app/modules/home/widget/submission_history.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/widgets/background_wrapper.dart';
 import 'package:gap/gap.dart';
@@ -25,41 +26,53 @@ class HomeView extends GetView<HomeController> {
             child: CustomAppbar(),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Gap(kToolbarHeight * 2),
-              Obx(() {
-                final username = controller.username ?? 'Guest';
-                return Text(
-                  'Hello, $username!',
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Gap(kToolbarHeight * 2),
+                Obx(() {
+                  final username = controller.username ?? 'Guest';
+                  return Text(
+                    'Hello, $username!',
+                    style: TextStyle(
+                      fontSize: 32,
+                      fontWeight: FontWeight.bold,
+                      color: color.onSurface,
+                    ),
+                  );
+                }),
+                Text(
+                  'Help your project ideas with us :)',
                   style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
                     color: color.onSurface,
                   ),
-                );
-              }),
-              Text(
-                'Help your project ideas with us :)',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: color.onSurface,
                 ),
-              ),
-              const Gap(28),
-              const FeatureCard(),
-              Gap(20),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.white
+                const Gap(28),
+                const FeatureCard(),
+                Gap(20),
+                Text(
+                  'Submission History',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                onPressed: () => Get.toNamed(Routes.TEST), 
-                child: Text('Go to test arena'),
-              )
-            ],
+                Gap(12),
+                SubmissionHistory(),
+                Gap(20),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white
+                  ),
+                  onPressed: () => Get.toNamed(Routes.TEST),
+                  child: Text('Go to test arena'),
+                )
+              ],
+            ),
           ),
         ),
       ),

@@ -91,23 +91,23 @@ class GenerateView extends GetView<GenerateController> {
                           ),
                         ),
                       ),
-                      Gap(20),
-                      CustomDropdownField(
-                        hint: 'Difficulty',
-                        items: difficulties,
-                        value: selectedDifficulty.value,
-                        onChanged: (val) => selectedDifficulty.value = val,
-                        itemBuilder: (item) => Text(
-                          item,
-                          style: TextStyle(
-                            color: isDarkMode ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
-                      Gap(56),
+                      // Gap(20),
+                      // CustomDropdownField(
+                      //   hint: 'Difficulty',
+                      //   items: difficulties,
+                      //   value: selectedDifficulty.value,
+                      //   onChanged: (val) => selectedDifficulty.value = val,
+                      //   itemBuilder: (item) => Text(
+                      //     item,
+                      //     style: TextStyle(
+                      //       color: isDarkMode ? Colors.white : Colors.black,
+                      //     ),
+                      //   ),
+                      // ),
+                      Gap(32),
                       Obx(() => SizedBox(
                         // width: double.infinity,
-                        width: 360,
+                        width: 320,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
                             padding: const EdgeInsets.symmetric(vertical: 16),
@@ -118,7 +118,7 @@ class GenerateView extends GetView<GenerateController> {
                           ),
                           onPressed: () async {
                             if (selectedField.value == null) {
-                              Get.snackbar('Oops', 'Field harus dipilih');
+                              Get.snackbar('Error', 'Field harus dipilih', snackPosition: SnackPosition.BOTTOM);
                               return;
                             }
 

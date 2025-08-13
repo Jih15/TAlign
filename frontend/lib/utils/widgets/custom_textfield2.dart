@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:frontend/utils/theme_app.dart';
+import 'package:get/get.dart';
 
-class CustomTextField2 extends StatelessWidget {
+class CustomTextField2 extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
+  final String? errorMessage;
+  final RegExp? validationPattern;
   final bool isPassword;
   final RxBool? isPasswordVisible;
   final TextInputType keyboardType;
@@ -20,10 +22,17 @@ class CustomTextField2 extends StatelessWidget {
 
   final bool enabled;
 
+  final int? minLines;
+  final int? maxLines;
+
   const CustomTextField2({
     super.key,
+    this.maxLines,
+    this.minLines,
     required this.controller,
     required this.hintText,
+    this.errorMessage,
+    this.validationPattern,
     this.isPassword = false,
     this.isPasswordVisible,
     this.keyboardType = TextInputType.text,
@@ -39,101 +48,90 @@ class CustomTextField2 extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField2> createState() => _CustomTextField2State();
+}
+
+class _CustomTextField2State extends State<CustomTextField2> {
+  bool hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller.addListener(_validateInput);
+  }
+
+  void _validateInput() {
+    final text = widget.controller.text;
+    if (widget.validationPattern != null) {
+      setState(() {
+        hasError = widget.validationPattern!.hasMatch(text);
+      });
+    } else {
+      setState(() {
+        hasError = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     final defaultFillColor = isDarkMode ? ThemeApp.grayscaleMedium : const Color(0xFFF5F5F5);
-    final defaultActiveBorderColor = isDarkMode ? Colors.white70 : const Color(0xFFD7680D);
-    final defaultBorderColor = isDarkMode ? Colors.transparent : Colors.grey.shade300;
-    final defaultInputTextColor = isDarkMode ? Colors.white : Colors.black;
-    final defaultHintTextColor = isDarkMode ? Colors.white60 : Colors.grey[700];
+    final activeBorderColor = hasError
+        ? Colors.red
+        : (widget.activeBorderColorOverride ?? (isDarkMode ? Colors.white70 : const Color(0xFFD7680D)));
+    final enabledBorderColor = hasError
+        ? Colors.red
+        : (widget.defaultBorderColorOverride ?? (isDarkMode ? Colors.transparent : Colors.grey.shade300));
+    final inputTextColor = widget.inputTextColorOverride ?? (isDarkMode ? Colors.white : Colors.black);
+    final hintTextColor = widget.hintTextColorOverride ?? (isDarkMode ? Colors.white60 : Colors.grey[700]);
+    final cursorColor = widget.cursorColorOverride ?? inputTextColor;
 
-    final fillColor = fillColorOverride ?? defaultFillColor;
-    final activeBorderColor = activeBorderColorOverride ?? defaultActiveBorderColor;
-    final enabledBorderColor = defaultBorderColorOverride ?? defaultBorderColor;
-    final inputTextColor = inputTextColorOverride ?? defaultInputTextColor;
-    final hintTextColor = hintTextColorOverride ?? defaultHintTextColor;
-    final cursorColor = cursorColorOverride ?? inputTextColor;
-
-    if (isPassword && isPasswordVisible != null) {
-      return Obx(() {
-        return _buildTextField(
-          context,
-          isDarkMode,
-          fillColor,
-          activeBorderColor,
-          enabledBorderColor,
-          inputTextColor,
-          hintTextColor,
-          cursorColor,
-          !isPasswordVisible!.value,
-        );
-      });
-    }
-
-    return _buildTextField(
-      context,
-      isDarkMode,
-      fillColor,
-      activeBorderColor,
-      enabledBorderColor,
-      inputTextColor,
-      hintTextColor,
-      cursorColor,
-      isPassword,
-    );
-  }
-
-  Widget _buildTextField(
-      BuildContext context,
-      bool isDarkMode,
-      Color fillColor,
-      Color activeBorderColor,
-      Color enabledBorderColor,
-      Color inputTextColor,
-      Color? hintTextColor,
-      Color cursorColor,
-      bool obscureText,
-      ) {
-    return TextFormField(
-      controller: controller,
-      enabled: enabled,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      cursorColor: cursorColor,
-      style: textStyle ?? TextStyle(fontSize: 14, color: enabled ? inputTextColor : Colors.grey),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: fillColor,
-        hintText: hintText,
-        hintStyle: hintStyle ?? TextStyle(fontSize: 14, color: hintTextColor),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: isDarkMode ? Colors.transparent : Colors.grey.shade300),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: enabledBorderColor),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: activeBorderColor, width: 1.5),
-        ),
-        suffixIcon: isPassword
-            ? IconButton(
-          icon: Icon(
-            (isPasswordVisible?.value ?? false) ? Icons.visibility : Icons.visibility_off,
-            color: inputTextColor,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          child: TextFormField(
+            controller: widget.controller,
+            enabled: widget.enabled,
+            obscureText: widget.isPassword && !(widget.isPasswordVisible?.value ?? false),
+            keyboardType: widget.keyboardType,
+            cursorColor: cursorColor,
+            style: widget.textStyle ?? TextStyle(fontSize: 14, color: widget.enabled ? inputTextColor : Colors.grey),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: widget.fillColorOverride ?? defaultFillColor,
+              hintText: widget.hintText,
+              hintStyle: widget.hintStyle ?? TextStyle(fontSize: 14, color: hintTextColor),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0), // 🔹 Auto fit height
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(16),
+                borderSide: BorderSide(color: enabledBorderColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: enabledBorderColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: activeBorderColor, width: 1.5),
+              ),
+            ),
           ),
-          onPressed: () {
-            if (isPasswordVisible != null) {
-              isPasswordVisible!.value = !isPasswordVisible!.value;
-            }
-          },
-        )
-            : null,
-      ),
+        ),
+        if (hasError)
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0, top: 4.0),
+            child: Text(
+              widget.errorMessage ?? "Input tidak sesuai",
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.red.shade700,
+              ),
+            ),
+          ),
+      ],
     );
   }
 }

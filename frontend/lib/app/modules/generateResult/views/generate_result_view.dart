@@ -3,6 +3,7 @@ import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 import '../controllers/generate_result_controller.dart';
 
 class GenerateResultView extends GetView<GenerateResultController> {
@@ -82,30 +83,33 @@ class GenerateResultView extends GetView<GenerateResultController> {
                         );
                       }
 
-                      return ListView.builder(
-                        itemCount: controller.judulList.length,
-                        itemBuilder: (context, index) {
-                          final judul = controller.judulList[index];
-                          return Container(
-                            margin: const EdgeInsets.only(bottom: 12),
-                            padding: const EdgeInsets.all(16),
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.white70,
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.outline,
+                      return Skeletonizer(
+                        enabled: controller.isLoading.value,
+                        child: ListView.builder(
+                          itemCount: controller.judulList.length,
+                          itemBuilder: (context, index) {
+                            final judul = controller.judulList[index];
+                            return Container(
+                              margin: const EdgeInsets.only(bottom: 12),
+                              padding: const EdgeInsets.all(16),
+                              width: double.infinity,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                color: Colors.white10,
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                            ),
-                            child: Text(
-                              judul,
-                              style: const TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
+                              child: Center(
+                                child: Text(
+                                  judul,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
-                            ),
-                          );
-                        },
+                            );
+                          },
+                        ),
                       );
                     }),
                   ),

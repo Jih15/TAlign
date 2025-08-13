@@ -24,15 +24,14 @@ class UserStudentSwitcher extends StatelessWidget {
         height: 56,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(40),
-          color: isDarkMode ? ThemeApp.grayscaleAltMedium  : Colors.grey[300],
+          color: isDarkMode ? ThemeApp.grayscaleAltMedium : Colors.grey[300],
         ),
         child: Stack(
           children: [
             AnimatedAlign(
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
-              alignment:
-              isUserTab.value ? Alignment.centerLeft : Alignment.centerRight,
+              alignment: isUserTab.value ? Alignment.centerRight : Alignment.centerLeft,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
                 child: Container(
@@ -58,20 +57,22 @@ class UserStudentSwitcher extends StatelessWidget {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => onToggle(true),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'Student',
-                        style: TextStyle(
-                          // fontWeight: FontWeight.w500,
-                          fontWeight: isUserTab.value
-                              ? FontWeight.w500
-                              : FontWeight.w400,
-                          fontSize: 14,
-                          color: isUserTab.value
-                              ? (isDarkMode ? Colors.white : Colors.black)
-                              : (isDarkMode ? Colors.grey[400] : Colors.grey[600]),
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => onToggle(false), // Student
+                    child: SizedBox(
+                      height: 56,
+                      child: Center(
+                        child: Text(
+                          'Student',
+                          style: TextStyle(
+                            fontWeight: !isUserTab.value
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontSize: 14,
+                            color: !isUserTab.value
+                                ? (isDarkMode ? Colors.white : Colors.black)
+                                : (isDarkMode ? Colors.grey[400] : Colors.grey[600]),
+                          ),
                         ),
                       ),
                     ),
@@ -79,19 +80,22 @@ class UserStudentSwitcher extends StatelessWidget {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => onToggle(false),
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Text(
-                        'User',
-                        style: TextStyle(
-                          fontWeight: isUserTab.value
-                              ? FontWeight.w400
-                              : FontWeight.w500,
-                          fontSize: 14,
-                          color: isUserTab.value
-                              ? (isDarkMode ? Colors.grey[400] : Colors.grey[600])
-                              : (isDarkMode ? Colors.white : Colors.black),
+                    behavior: HitTestBehavior.opaque,
+                    onTap: () => onToggle(true), // User
+                    child: SizedBox(
+                      height: 56,
+                      child: Center(
+                        child: Text(
+                          'User',
+                          style: TextStyle(
+                            fontWeight: isUserTab.value
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                            fontSize: 14,
+                            color: isUserTab.value
+                                ? (isDarkMode ? Colors.white : Colors.black)
+                                : (isDarkMode ? Colors.grey[400] : Colors.grey[600]),
+                          ),
                         ),
                       ),
                     ),
