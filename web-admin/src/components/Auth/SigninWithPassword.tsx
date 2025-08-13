@@ -38,9 +38,12 @@ export default function SigninWithPassword() {
         username: data.username,
         password: data.password
       });
+      
+      const { access_token, role } = res;
 
       // Get token for cookie
       cookie.setCookie("access_token", res.access_token, 7);
+
       router.push("/");
 
     } catch (err: any){
