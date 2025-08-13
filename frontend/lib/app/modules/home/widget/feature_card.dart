@@ -15,7 +15,7 @@ class FeatureCard extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         final double totalWidth = constraints.maxWidth;
-        final double gap = 16;
+        final double gap = 20;
         final double cardWidth = (totalWidth - gap) / 2;
         final double cardHeight = cardWidth * 1.88;
 
@@ -25,51 +25,93 @@ class FeatureCard extends StatelessWidget {
             children: [
               /// === Kiri: Card Besar (Generate Project Ideas) ===
               InkWell(
-                onTap: ()=> Get.toNamed(Routes.GENERATE),
-                child: Container(
-                  width: cardWidth,
-                  height: cardHeight,
-                  decoration: BoxDecoration(
-                    color: color.onSecondaryFixedVariant,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  padding: const EdgeInsets.all(12),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: 48,
-                        height: 48,
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: ThemeApp.orangeDark,
-                          shape: BoxShape.circle,
+                onTap: () => Get.toNamed(Routes.GENERATE),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Container(
+                    width: cardWidth,
+                    height: cardHeight,
+                    color: ThemeApp.orange,
+                    child: Stack(
+                      children: [
+                        // Ripple paling besar
+                        Positioned(
+                          top: -36,
+                          left: -36,
+                          child: Container(
+                            width: 144,
+                            height: 144,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ThemeApp.orangeDark.withOpacity(0.2),
+                            ),
+                          ),
                         ),
-                        child: Image.asset(
-                          ConstantAssets.icoGenerateCard,
-                          fit: BoxFit.cover,
+                        // Ripple sedang
+                        Positioned(
+                          top: -12,
+                          left: -12,
+                          child: Container(
+                            width: 96,
+                            height: 96,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ThemeApp.orangeDark.withOpacity(0.4),
+                            ),
+                          ),
                         ),
-                      ),
-                      const Spacer(),
-                      Text(
-                        'Generate \nProject Ideas',
-                        style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w700,
-                            color: ThemeApp.grayscaleDark,
-                            height: 1.0
+                        // Ripple kecil + ikon
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: Container(
+                            width: 48,
+                            height: 48,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: ThemeApp.orangeDark.withOpacity(0.6),
+                            ),
+                            child: Center(
+                              child: Image.asset(
+                                ConstantAssets.icoGenerateCard,
+                                width: 28,
+                                height: 28,
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        'Let\'s try it now!',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: ThemeApp.grayscaleDark,
+                        // Teks bawah
+                        Positioned(
+                          bottom: 12,
+                          left: 12,
+                          right: 20,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                'Generate\nProject Ideas',
+                                style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.black,
+                                  height: 1.2,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Let’s try it now',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.black.withOpacity(0.6),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -85,7 +127,7 @@ class FeatureCard extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: color.onSurface,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(24),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,7 +172,7 @@ class FeatureCard extends StatelessWidget {
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         color: color.onTertiary,
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(24),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

@@ -15,7 +15,7 @@ class ProfileEditContainer extends GetView<ProfileController>{
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    final containerHeight = screenHeight - 300;
+    final containerHeight = screenHeight - 200;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
@@ -55,8 +55,8 @@ class ProfileEditContainer extends GetView<ProfileController>{
             child: SingleChildScrollView(
               child: Obx(() {
                 return controller.isStudentTab.value
-                    ? EditStudentForm()
-                    : EditUserForm();
+                    ? EditUserForm()
+                    : EditStudentForm();
               }),
             ),
           )
@@ -65,3 +65,5 @@ class ProfileEditContainer extends GetView<ProfileController>{
     );
   }
 }
+
+

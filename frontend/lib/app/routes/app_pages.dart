@@ -33,24 +33,19 @@ class AppPages {
       name: _Paths.HOME,
       page: () => HomeView(),
       binding: HomeBinding(),
+      // transition: Transition.native
     ),
     GetPage(
       name: _Paths.TEST,
       page: () => TestView(),
       binding: TestBinding(),
+      // transition: Transition.native,
     ),
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfileView(),
       binding: ProfileBinding(),
-      // transition: Transition.leftToRight
-      children: [
-        GetPage(
-          name: _Paths.TEST,
-          page: () => const TestView(),
-          binding: TestBinding(),
-        ),
-      ],
+      transition: Transition.rightToLeft
     ),
     GetPage(
       name: _Paths.GENERATE,

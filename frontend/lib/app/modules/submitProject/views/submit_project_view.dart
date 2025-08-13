@@ -1,4 +1,3 @@
-import 'package:easy_radio/easy_radio.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
@@ -18,6 +17,7 @@ class SubmitProjectView extends GetView<SubmitProjectController> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     final fields = [
       'Artificial Intelligence',
       'Web Development',
@@ -28,9 +28,6 @@ class SubmitProjectView extends GetView<SubmitProjectController> {
       'Machine Learning',
       'Blockchain'
     ];
-
-    final selectedField = RxnString();
-    final RxString lecturerIdea = ''.obs;
 
     return BackgroundWrapper(
       child: Scaffold(
@@ -76,101 +73,151 @@ class SubmitProjectView extends GetView<SubmitProjectController> {
                   ),
                 ),
                 const Gap(36),
-                Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomDropdownField(
-                        hint: 'Field',
-                        items: fields,
-                        value: selectedField.value,
-                        onChanged: (val) => controller.selectedField.value = val,
-                        itemBuilder: (item) => Text(
-                          item,
-                          style: TextStyle(
-                            color: isDarkMode ? Colors.white : Colors.black,
-                          ),
-                        ),
-                      ),
-                      const Gap(20),
-                      CustomTextField2(
-                        controller: controller.projectTitleController,
-                        hintText: 'Project Title',
-                      ),
-                      const Gap(20),
-                      CustomFileUpload(
-                        label: "Drop file here",
-                        onFilePicked: (fileName) {
-                          debugPrint("File dipilih: $fileName");
-                        },
-                      ),
-                      const Gap(20),
-                      const Text('Was this title the lecturer\'s idea?'),
-                      // const Gap(8),
-                      Obx(() => Row(
-                        children: [
-                          Radio<String>(
-                            activeColor: isDarkMode ? Colors.white : Colors.black,
-                            value: 'Yes',
-                            groupValue: controller.lecturerIdea.value,
-                            onChanged: (value) => controller.lecturerIdea.value = value!,
-                          ),
-                          const Text('Yes'),
-                          const SizedBox(width: 20),
-                          Radio<String>(
-                            activeColor: isDarkMode ? Colors.white : Colors.black,
-                            value: 'No',
-                            groupValue: controller.lecturerIdea.value,
-                            onChanged: (value) => controller.lecturerIdea.value = value!,
-                          ),
-                          const Text('No'),
-                        ],
-                      )),
 
-                      Gap(4),
-                      CustomTextField2(
+                /// Field Selection
+                CustomDropdownField(
+                  hint: 'Field',
+                  items: fields,
+                  value: controller.selectedField.value,
+                  onChanged: (val) => controller.selectedField.value = val,
+                  itemBuilder: (item) => Text(
+                    item,
+                    style: TextStyle(
+                      color: isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
+                const Gap(20),
+
+                /// Project Title
+                CustomTextField2(
+                  controller: controller.projectTitleController,
+                  hintText: 'Project Title',
+                ),
+                const Gap(20),
+
+                /// File Upload
+                Obx(() => CustomFileUpload(
+                  label: controller.selectedDocument.value != null
+                      ? controller.selectedDocument.value!.path.split('/').last
+                      : "Drop file here",
+                  onFilePicked: (fileName) async {
+                    await controller.pickDocument();
+                  },
+                )),
+                const Gap(20),
+
+                /// Lecturer's Idea? Yes/No
+                const Text('Was this title the lecturer\'s idea?'),
+                Obx(() => Row(
+                  children: [
+                    Radio<String>(
+                      activeColor: isDarkMode ? Colors.white : Colors.black,
+                      value: 'Yes',
+                      groupValue: controller.lecturerIdea.value,
+                      onChanged: (value) {
+                        controller.lecturerIdea.value = value!;
+                        controller.ideaSource.value = 'LECTURER_ADVICE';
+                      },
+                    ),
+                    const Text('Yes'),
+                    const SizedBox(width: 20),
+                    Radio<String>(
+                      activeColor: isDarkMode ? Colors.white : Colors.black,
+                      value: 'No',
+                      groupValue: controller.lecturerIdea.value,
+                      onChanged: (value) {
+                        controller.lecturerIdea.value = value!;
+                        controller.ideaSource.value = '';
+                      },
+                    ),
+                    const Text('No'),
+                  ],
+                )),
+
+                /// If Yes → Lecturer Name Field
+                Obx(() {
+                  if (controller.lecturerIdea.value == 'Yes') {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: CustomTextField2(
                         controller: controller.lecturerNameController,
                         hintText: 'Lecturer\'s Name',
                       ),
-                      const Gap(48),
-                      Center(
-                        child: Obx(
-                              () => SizedBox(
-                            width: 360,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                padding:
-                                const EdgeInsets.symmetric(vertical: 16),
-                                backgroundColor: ThemeApp.greenSoft,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                              ),
-                              onPressed: () {
-                                debugPrint(
-                                    "Pilihan Lecturer Idea: ${lecturerIdea.value}");
-                              },
-                              child: controller.isLoading.value
-                                  ? const SizedBox(
-                                      width: 20,
-                                      height: 20,
-                                      child: CircularProgressIndicator(
-                                        color: Colors.black,
-                                        strokeWidth: 2,
-                                      ),
-                                    )
-                                  : const Text(
-                                      'Submit',
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: Colors.white,
-                                      ),
-                                  ),
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+
+                /// If No → Generated / Manual
+                Obx(() {
+                  if (controller.lecturerIdea.value == 'No') {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Gap(12),
+                        const Text('Select Idea Source:'),
+                        Row(
+                          children: [
+                            Radio<String>(
+                              activeColor: isDarkMode ? Colors.white : Colors.black,
+                              value: 'GENERATED',
+                              groupValue: controller.ideaSource.value,
+                              onChanged: (value) => controller.ideaSource.value = value!,
                             ),
+                            const Text('Generated'),
+                            const SizedBox(width: 20),
+                            Radio<String>(
+                              activeColor: isDarkMode ? Colors.white : Colors.black,
+                              value: 'MANUAL',
+                              groupValue: controller.ideaSource.value,
+                              onChanged: (value) => controller.ideaSource.value = value!,
+                            ),
+                            const Text('Manual'),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                  return const SizedBox.shrink();
+                }),
+
+                const Gap(36),
+
+                /// Submit Button
+                Center(
+                  child: Obx(
+                        () => SizedBox(
+                      width: 320,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          backgroundColor: ThemeApp.greenSoft,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                        ),
+                        onPressed: () {
+                          controller.submitProject();
+                        },
+                        child: controller.isLoading.value
+                            ? const SizedBox(
+                          width: 20,
+                          height: 20,
+                          child: CircularProgressIndicator(
+                            color: Colors.black,
+                            strokeWidth: 2,
+                          ),
+                        )
+                            : const Text(
+                          'Submit',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ],

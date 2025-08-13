@@ -1,14 +1,12 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:frontend/app/data/controller/auth_controller.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/core/local_storage_service.dart';
-import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   final AuthController _authController = Get.find<AuthController>();
 
-  final RxString bgImagePath = ''.obs;
   final rememberMe = false.obs;
   final isLoading = false.obs;
 
@@ -17,18 +15,32 @@ class LoginController extends GetxController {
   final passwordController = TextEditingController();
 
   var isPasswordVisible = false.obs;
-
   var isLogin = true.obs;
 
-  void toggleTab(bool login){
-    isLogin.value = login;  
+  // Tambahan untuk error handling password
+  var passwordError = ''.obs;
+  var usernameError = ''.obs;
+
+  void toggleTab(bool login) {
+    isLogin.value = login;
   }
 
+  @override
+  void onInit() {
+    super.onInit();
+    // Hilangkan error saat user mengetik ulang password
+    passwordController.addListener(() {
+      if (passwordError.value.isNotEmpty) {
+        passwordError.value = '';
+      }
+    });
+  }
 
   @override
   void onClose() {
     usernameController.dispose();
     passwordController.dispose();
+    emailController.dispose();
     super.onClose();
   }
 
@@ -36,17 +48,35 @@ class LoginController extends GetxController {
     final username = usernameController.text.trim();
     final password = passwordController.text.trim();
 
+    passwordError.value = ''; // reset error
+
     if (username.isEmpty || password.isEmpty) {
-      Get.snackbar('Error', 'Username dan password tidak boleh kosong!');
+      Get.snackbar(
+          'Error',
+          'Username dan password tidak boleh kosong!',
+          snackPosition: SnackPosition.BOTTOM,
+          colorText: Colors.black
+      );
       return;
     }
     isLoading.value = true;
     try {
       await _authController.login(username, password);
-      Get.snackbar('Success', 'Login berhasil!');
+      Get.snackbar('Success', 'Login berhasil!', snackPosition: SnackPosition.BOTTOM);
       Get.offNamed(Routes.HOME);
     } catch (e) {
-      Get.snackbar('Login gagal', e.toString());
+      if (e.toString().contains("Invalid password")) {
+        passwordError.value = 'Incorrect Password';
+      }
+      if (e.toString().contains("Invalid username")) {
+        usernameError.value = 'Incorrect Username';
+      }
+      // Get.snackbar(
+      //     'Login gagal',
+      //     e.toString(),
+      //     snackPosition: SnackPosition.BOTTOM,
+      //     colorText: Colors.black
+      // );
     } finally {
       isLoading.value = false;
     }
@@ -58,7 +88,7 @@ class LoginController extends GetxController {
     final password = passwordController.text.trim();
 
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
-      Get.snackbar('Error', 'Field tidak boleh kosong');
+      Get.snackbar('Error', 'Field tidak boleh kosong', snackPosition: SnackPosition.BOTTOM, colorText: Colors.black);
       return;
     }
     isLoading.value = true;

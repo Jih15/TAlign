@@ -12,6 +12,7 @@ class User(Base):
     email = Column(String(55), unique=True, index=True)
     password = Column(String(255))
     role = Column(Enum(UserRoleEnum), nullable=False)
+    profile_picture = Column(String(255), nullable=True)
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
 

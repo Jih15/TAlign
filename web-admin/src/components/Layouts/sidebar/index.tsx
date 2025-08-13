@@ -9,38 +9,48 @@ import { NAV_DATA } from "./data";
 import { ArrowLeftIcon, ChevronUp } from "./icons";
 import { MenuItem } from "./menu-item";
 import { useSidebarContext } from "./sidebar-context";
+import { useUser } from "@/hooks/me/use-user"; 
 
 export function Sidebar() {
   const pathname = usePathname();
   const { setIsOpen, isOpen, isMobile, toggleSidebar } = useSidebarContext();
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
+  const { user } = useUser();
+  const role = user?.role ?? "guest"; // default guest kalau belum login
 
   const toggleExpanded = (title: string) => {
     setExpandedItems((prev) => (prev.includes(title) ? [] : [title]));
-
-    // Uncomment the following line to enable multiple expanded items
-    // setExpandedItems((prev) =>
-    //   prev.includes(title) ? prev.filter((t) => t !== title) : [...prev, title],
-    // );
   };
 
+  // Buka otomatis jika subitem aktif
   useEffect(() => {
-    // Keep collapsible open, when it's subpage is active
-    NAV_DATA.some((section) => {
-      return section.items.some((item) => {
-        return item.items.some((subItem) => {
+    NAV_DATA.forEach((section) => {
+      section.items.forEach((item) => {
+        item.items.forEach((subItem) => {
           if (subItem.url === pathname) {
             if (!expandedItems.includes(item.title)) {
               toggleExpanded(item.title);
             }
-
-            // Break the loop
-            return true;
           }
         });
       });
     });
   }, [pathname]);
+
+  // Filter NAV_DATA berdasarkan role
+  const filteredNav = NAV_DATA
+    .filter((section) => !section.roles || section.roles.includes(role))
+    .map((section) => ({
+      ...section,
+      items: section.items
+        .filter((item) => !item.roles || item.roles.includes(role))
+        .map((item) => ({
+          ...item,
+          items: item.items?.filter(
+            (sub) => !sub.roles || sub.roles.includes(role)
+          ) || [],
+        })),
+    }));
 
   return (
     <>
@@ -79,7 +89,6 @@ export function Sidebar() {
                 className="absolute left-3/4 right-4.5 top-1/2 -translate-y-1/2 text-right"
               >
                 <span className="sr-only">Close Menu</span>
-
                 <ArrowLeftIcon className="ml-auto size-7" />
               </button>
             )}
@@ -87,7 +96,7 @@ export function Sidebar() {
 
           {/* Navigation */}
           <div className="custom-scrollbar mt-6 flex-1 overflow-y-auto pr-3 min-[850px]:mt-10">
-            {NAV_DATA.map((section) => (
+            {filteredNav.map((section) => (
               <div key={section.label} className="mb-6">
                 <h2 className="mb-5 text-sm font-medium text-dark-4 dark:text-dark-6">
                   {section.label}
@@ -109,9 +118,7 @@ export function Sidebar() {
                                 className="size-6 shrink-0"
                                 aria-hidden="true"
                               />
-
                               <span>{item.title}</span>
-
                               <ChevronUp
                                 className={cn(
                                   "ml-auto rotate-180 transition-transform duration-200",
@@ -148,7 +155,6 @@ export function Sidebar() {
                                 ? item.url + ""
                                 : "/" +
                                   item.title.toLowerCase().split(" ").join("-");
-
                             return (
                               <MenuItem
                                 className="flex items-center gap-3 py-3"
@@ -160,7 +166,6 @@ export function Sidebar() {
                                   className="size-6 shrink-0"
                                   aria-hidden="true"
                                 />
-
                                 <span>{item.title}</span>
                               </MenuItem>
                             );

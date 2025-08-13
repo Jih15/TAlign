@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/data/controller/user_controller.dart';
 import 'package:frontend/utils/constant_assets.dart';
+import 'package:frontend/utils/constant_value.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -28,6 +29,13 @@ class HomeController extends GetxController {
   }
 
   String? get username => _userController.user.value?.username;
+  String? get profilePicture => _userController.user.value?.profilePicture;
+  String? get fullImageUrl {
+    final path = _userController.user.value?.profilePicture;
+    if (path == null) return null;
+    return '${ConstantsValues.baseUrl}${path.startsWith('/') ? path.substring(1) : path}';
+  }
+
 }
 
 

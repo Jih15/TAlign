@@ -8,5 +8,6 @@ class TestBinding extends Bindings {
     Get.lazyPut<TestController>(
       () => TestController(),
     );
+    // Get.lazyPut<ProfileController>(() => ProfileController(),);
   }
 }

@@ -5,6 +5,9 @@ from app.database.models.lecturer_model import Lecturer
 from app.database.schemas.user_schema import UserCreate, UserUpdate
 from app.utils.enum import UserRoleEnum
 from passlib.context import CryptContext
+from fastapi import UploadFile
+import uuid
+import os
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -20,14 +23,15 @@ def get_user_by_username(db: Session, username: str):
 def get_users(db: Session, skip: int = 0, limit: int = 100):
     return db.query(User).offset(skip).limit(limit).all()
 
-def create_user(db: Session, user: UserCreate, role: UserRoleEnum):
+def create_user(db: Session, user: UserCreate, role: UserRoleEnum, photo_url: str = None):
     hashed_password = pwd_context.hash(user.password)
-    
+
     data = User(
         username=user.username,
         email=user.email,
         password=hashed_password,
-        role=role
+        role=role,
+        profile_picture=photo_url
     )
 
     db.add(data)
@@ -38,7 +42,7 @@ def create_user(db: Session, user: UserCreate, role: UserRoleEnum):
         student = Student(
             user_id=data.user_id,
             full_name=data.username,
-            majors = "Teknologi Informasi"  
+            majors="Teknologi Informasi"
         )
         db.add(student)
 
@@ -51,6 +55,7 @@ def create_user(db: Session, user: UserCreate, role: UserRoleEnum):
 
     db.commit()
     return data
+
 
 def update_user(db: Session, user_id: int, user_data: UserUpdate):
     data = get_user(db, user_id)

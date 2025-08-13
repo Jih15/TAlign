@@ -19,9 +19,9 @@ export function UserInfo() {
   const [isOpen, setIsOpen] = useState(false);
 
   const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
-    img: "/images/user/user-03.png",
+    name: "Guess",
+    email: "guess@example.com",
+    img: "https://static.vecteezy.com/system/resources/thumbnails/013/360/247/small_2x/default-avatar-photo-icon-social-media-profile-sign-symbol-vector.jpg",
   };
 
   const { user, loading } = useUser();
@@ -36,7 +36,7 @@ export function UserInfo() {
         <figure className="flex items-center gap-3">
           <Image
             src={USER.img}
-            className="size-12"
+            className="size-12 rounded-full"
             alt={`Avatar of ${USER.img}`}
             role="presentation"
             width={200}
@@ -65,9 +65,9 @@ export function UserInfo() {
 
         <figure className="flex items-center gap-2.5 px-5 py-3.5">
           <Image
-            src={USER.img}
-            className="size-12"
-            alt={`Avatar for ${user?.username?? "Guest"}`}
+            src={user.profile_picture ||  USER.img}
+            className="size-12 rounded-full"
+            alt={`Avatar for ${user?.username || USER.name}`}
             role="presentation"
             width={200}
             height={200}
@@ -78,13 +78,13 @@ export function UserInfo() {
               {user?.username?? "Guest"}
             </div>
 
-            <div className="leading-none text-gray-6">{user?.email?? "guest@example.com"}</div>
+            <div className="leading-none text-gray-6">{user?.email || USER.email }</div>
           </figcaption>
         </figure>
 
         <hr className="border-[#E8E8E8] dark:border-dark-3" />
 
-        <div className="p-2 text-base text-[#4B5563] dark:text-dark-6 [&>*]:cursor-pointer">
+        {/* <div className="p-2 text-base text-[#4B5563] dark:text-dark-6 [&>*]:cursor-pointer">
           <Link
             href={"/profile"}
             onClick={() => setIsOpen(false)}
@@ -106,7 +106,7 @@ export function UserInfo() {
               Account Settings
             </span>
           </Link>
-        </div>
+        </div> */}
 
         <hr className="border-[#E8E8E8] dark:border-dark-3" />
 

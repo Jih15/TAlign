@@ -44,7 +44,7 @@ class CustomDropdownField<T> extends StatelessWidget {
     final Color defaultFillColor =
     isDarkMode ? ThemeApp.grayscaleMedium : ThemeApp.grayscaleAltLight;
     final Color defaultBorderColor =
-    isDarkMode ? Colors.white30 : Colors.grey.shade300;
+    isDarkMode ? Colors.transparent : Colors.grey.shade300;
     final Color defaultFocusedBorderColor =
     isDarkMode ? Colors.white70 : const Color(0xFFD7680D);
     final Color defaultTextColor = isDarkMode ? Colors.white : Colors.black;

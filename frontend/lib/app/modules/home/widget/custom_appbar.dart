@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/app/modules/home/controllers/home_controller.dart';
 import 'package:frontend/app/routes/app_pages.dart';
 import 'package:frontend/utils/constant_assets.dart';
 import 'package:get/get.dart';
 
-class CustomAppbar extends StatelessWidget {
+class CustomAppbar extends GetView<HomeController> {
   const CustomAppbar({super.key});
 
   @override
@@ -117,10 +118,21 @@ class CustomAppbar extends StatelessWidget {
               color: Colors.white,
             ),
             child: ClipOval(
-              child: Image.asset(
-                ConstantAssets.imgProfile, // ← Ganti ini dengan foto profilmu
+              // child: Image.asset(
+              //   ConstantAssets.imgProfile,
+              //   fit: BoxFit.cover,
+              // ),
+              child: controller.profilePicture != null && controller.profilePicture!.isNotEmpty
+                  ? Image.network('${controller.fullImageUrl}',
                 fit: BoxFit.cover,
-              ),
+                errorBuilder: (context, error, stackTrace) {
+                  return const Icon(Icons.person, color: Colors.grey);
+                },
+              )
+                  : Image.network(
+                'https://static.vecteezy.com/system/resources/thumbnails/013/360/247/small_2x/default-avatar-photo-icon-social-media-profile-sign-symbol-vector.jpg',
+                fit: BoxFit.cover,
+              )
             ),
           ),
           )

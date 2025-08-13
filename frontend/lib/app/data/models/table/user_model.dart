@@ -5,6 +5,7 @@ class UserModel {
   final String role;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final String? profilePicture;
 
   UserModel({
     required this.userId,
@@ -13,6 +14,7 @@ class UserModel {
     required this.role,
     this.createdAt,
     this.updatedAt,
+    this.profilePicture,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class UserModel {
       username: json["username"] ?? '',
       email: json["email"] ?? '',
       role: json["role"] ?? '',
+      profilePicture: json["profile_picture"] ?? '',
       createdAt: json["created_at"] != null
           ? DateTime.tryParse(json["created_at"])
           : null,
@@ -37,6 +40,7 @@ class UserModel {
     "username": username,
     "email": email,
     "role": role,
+    "profile_picture": profilePicture,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
   };

@@ -1,11 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:frontend/app/data/models/auth/auth_model.dart';
-import 'package:frontend/app/data/models/auth/login_request_model.dart';
-import 'package:frontend/app/data/models/auth/login_response_model.dart';
 import 'package:frontend/app/data/models/auth/signup_request_model.dart';
 import 'package:frontend/app/data/models/table/user_model.dart';
 import 'package:frontend/utils/services/dio_client.dart';
-import 'package:frontend/utils/services/token.dart';
 
 class AuthServices {
   final Dio _dio = dioClient;

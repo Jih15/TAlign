@@ -2,6 +2,7 @@ abstract class ConstantAssets {
   // for path
   static const _imgPath = 'assets/img/';
   static const _icoPath = 'assets/ico/';
+  static const _lottiePath = 'assets/lottie/';
 
   // Img
   static const imgBgDark = '${_imgPath}bgImgDark.png';
@@ -21,4 +22,9 @@ abstract class ConstantAssets {
   static const icoLanguageLight = '${_icoPath}language-light.png';
   static const icoAppearanceDark = '${_icoPath}appearance-dark.png';
   static const icoAppearanceLight = '${_icoPath}appearance-light.png';
+
+  // lottie
+  static const lottieCheck = '${_lottiePath}new-color-check.json';
+  static const lottieWrong = '${_lottiePath}wrong.json';
+
 }

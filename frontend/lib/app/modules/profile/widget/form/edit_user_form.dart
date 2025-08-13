@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/app/modules/profile/controllers/profile_controller.dart';
 import 'package:frontend/utils/theme_app.dart';
+import 'package:frontend/utils/widgets/custom_dialog.dart';
 import 'package:frontend/utils/widgets/custom_textfield2.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -58,7 +59,7 @@ class EditUserForm extends GetView<ProfileController> {
 
         // Save button
         Obx(
-              () => SizedBox(
+          () => SizedBox(
             width: double.infinity,
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -69,8 +70,25 @@ class EditUserForm extends GetView<ProfileController> {
                 ),
               ),
               onPressed: controller.isLoading.value
-                  ? null
-                  : () => controller.updateUserData(),
+                ? null
+                : (){
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => ConfirmDialogContent(
+                        title: 'Update your account?',
+                        description: 'Are you sure to update your account?',
+                        confirmText: 'No, Keep my account',
+                        cancelText: 'Yes, Update my account',
+                        onCancel: () {
+                          Get.back();
+                        },
+                        onConfirm: () {
+                          controller.updateUserData();
+                          Get.back();
+                        },
+                      ),
+                    );
+                  },
               child: controller.isLoading.value
                   ? const SizedBox(
                 width: 20,
