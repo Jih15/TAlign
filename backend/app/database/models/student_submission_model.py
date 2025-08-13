@@ -11,10 +11,13 @@ class StudentSubmission(Base):
     student_id = Column(Integer, ForeignKey("students.student_id", ondelete ="CASCADE"), index=True)
     title = Column(String(255))
     title_field = Column(String(100))
-    difficulty = Column(Enum(DifficultyEnum))
+    # difficulty = Column(Enum(DifficultyEnum))
     idea_source = Column(Enum(IdeaSourceEnum))
-    title_status = Column(Enum(SubmissionStatusEnum))
-    similarity_score = Column(Float)
+    lecturer_name = Column(String(255))
+    # title_status = Column(Enum(SubmissionStatusEnum)) #ini perlu di fix
+    # similarity_score = Column(Float) 
+    file_path = Column(String(255), nullable=False)
+    
     created_at = Column(TIMESTAMP, server_default=func.now())
     updated_at = Column(TIMESTAMP, server_default=func.now(), onupdate=func.now())
 
