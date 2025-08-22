@@ -1,9 +1,7 @@
-import constantValueClient from "@/lib/const/constant-value.client";
 
-/**
- * Struktur data yang dikembalikan endpoint `/submission-status`
- * -> silakan lengkapi/ubah enum & tipe sesuai skema real di backend.
- */
+import { getAllSubmissionStatusServer } from "./submission-status.server";
+import { getAllSubmissionStatusClient } from "./submission-status.client";
+
 export interface SubmissionStatus {
   status_id: number;
   submission_id: number;
@@ -39,18 +37,17 @@ export interface SubmissionStatus {
   };
 }
 
-const route = `${constantValueClient.BASE_URL}/submission-status`;
+export async function countPendingSubmissions(): Promise<number> {
+  let submissions: SubmissionStatus[] = [];
 
-export async function getAllSubmissionStatus(): Promise<SubmissionStatus[]> {
-  const res = await fetch(route, {
-    headers: constantValueClient.getAuthHeader(),
-  });
-
-  if (!res.ok) {
-    // tangani kasus token expired dlsb
-    constantValueClient.handleAuthError(res.status);
-    throw new Error(`Error fetch submission-status: ${res.status}`);
+  if (typeof window === "undefined") {
+    // server-side
+    submissions = await getAllSubmissionStatusServer();
+  } else {
+    // client-side
+    submissions = await getAllSubmissionStatusClient();
   }
 
-  return res.json() as Promise<SubmissionStatus[]>;
+  return submissions.filter((s) => s.status === "WAITING_REVIEW").length;
 }
+

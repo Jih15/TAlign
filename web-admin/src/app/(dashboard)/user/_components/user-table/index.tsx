@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getAllUsers, deleteUser } from "@/lib/api/CRUD/users/users";
+// import { getAllUsers, deleteUser } from "@/lib/api/CRUD/users/users";
+// import { getAllUsersServer } from "@/lib/api/CRUD/users/users.server";
+import { getAllUsersServer, deleteUserServer } from "@/lib/api/CRUD/users/users.server";
 import { PencilSquareIcon, TrashIcon, } from "@/assets/icons";
 import { ChevronUpDownIcon, ChevronUpIcon, ChevronDownIcon } from "@heroicons/react/16/solid"; 
 import Modal from "@/components/Modal/modal";
@@ -24,11 +26,13 @@ type SortableField = 'username' | 'email' | 'role';
 export function UserTable({ className }: { className?: string }) {
 
   const USER = {
-    name: "John Smith",
-    email: "johnson@nextadmin.com",
-    img: "/images/user/user-03.png",
+    name: "Guess",
+    email: "guess@example.com",
+    // img: "/images/user/user-03.png",
+    img: "https://static.vecteezy.com/system/resources/thumbnails/013/360/247/small_2x/default-avatar-photo-icon-social-media-profile-sign-symbol-vector.jpg"
   };
 
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const [users, setUsers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -49,7 +53,7 @@ export function UserTable({ className }: { className?: string }) {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const data = await getAllUsers();
+      const data = await getAllUsersServer();
       setUsers(data);
     } catch (err) {
       console.error("Error fetching users:", err);
@@ -131,7 +135,7 @@ export function UserTable({ className }: { className?: string }) {
     if (!userToDelete) return;
     
     try {
-      await deleteUser(userToDelete.user_id);
+      await deleteUserServer(userToDelete.user_id);
       // Refresh user list after successful deletion
       await fetchUsers();
       setIsDeleteModalOpen(false);
@@ -278,10 +282,12 @@ export function UserTable({ className }: { className?: string }) {
             >
               <TableCell> 
                 <Image
-                  src={USER.img}
-                  alt={`Avatar of ${USER.img}`}
+                  src={user.profile_picture ? `${API_URL}${user.profile_picture}` : USER.img}
+                  alt={`Avatar of ${user.name || 'User'}`}
                   width={50}
                   height={50}
+                  className="rounded-full object-cover"
+                  style={{ width: '50px', height: '50px' }}
                 />
               </TableCell>
               <TableCell className="text-left">{user.username}</TableCell>

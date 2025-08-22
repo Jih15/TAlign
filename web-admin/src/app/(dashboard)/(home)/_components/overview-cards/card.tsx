@@ -27,7 +27,7 @@ export function OverviewCard({ label, data, Icon }: PropsType) {
           <dd className="text-sm font-medium text-dark-6">{label}</dd>
         </dl>
 
-        <dl
+        {/* <dl
           className={cn(
             "text-sm font-medium",
             isDecreasing ? "text-red" : "text-green",
@@ -46,7 +46,7 @@ export function OverviewCard({ label, data, Icon }: PropsType) {
             {label} {isDecreasing ? "Decreased" : "Increased"} by{" "}
             {data.growthRate}%
           </dd>
-        </dl>
+        </dl> */}
       </div>
     </div>
   );

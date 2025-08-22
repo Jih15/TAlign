@@ -14,14 +14,31 @@ import { getAllSubmissions } from "@/lib/api/CRUD/student-submission/student-sub
 import { useRouter } from "next/navigation";
 import { DownloadIcon, PreviewIcon } from "@/components/Tables/icons";
 import { TrashIcon } from "@/assets/icons";
-import { Submission } from "@/lib/model/types";
+import { Status, Submission } from "@/lib/model/types";
 import { getBadgeClass, formatStatus } from "../../helper/submission-utils";
+import { getAllSubmissionStatusClient } from "@/lib/api/CRUD/submission-status/submission-status.client";
+import { SubmissionStatus } from "@/lib/api/CRUD/submission-status/status";
 
 export function SubmissionTable({ className }: { className?: string }) {
   const [submissions, setSubmissions] = useState<Submission[]>([]);
+  const [rows, setRows] = useState<Status[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
+
+  const fetchStatus = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const status = await getAllSubmissionStatusClient();
+      setRows(status);
+    }catch (err) {
+      console.error("Error fetch status:" ,err);
+      setError("failed load data!")
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchSubmissions = async () => {
     try {
@@ -38,6 +55,7 @@ export function SubmissionTable({ className }: { className?: string }) {
   };
 
   useEffect(() => {
+    fetchStatus();
     fetchSubmissions();
   }, []);
 
@@ -97,16 +115,23 @@ export function SubmissionTable({ className }: { className?: string }) {
             >
               <TableCell className="w-40">
                 <div className="font-medium dark:text-white text-black">
-                  {item.student.full_name}
+                  {item.student?.full_name ?? "-"}
                 </div>
-                <div className="text-sm text-gray-500">NIM: {item.student.nim}</div>
+                <div className="text-sm text-gray-500">NIM: {item.student?.nim ?? ""}</div>
               </TableCell>
               <TableCell className="font-medium line-clamp-2">{item.title}</TableCell>
               <TableCell className="text-sm text-gray-500">{item.title_field}</TableCell>
               <TableCell>
-                <span className={getBadgeClass("status", item.title_status)}>
-                  {formatStatus(item.title_status)}
-                </span>
+                {(() => {
+                  const status = rows.find((s) => s.submission_id === item.submission_id);
+                  const currentStatus = status?.status || item.title_status;
+
+                  return (
+                    <span className={getBadgeClass("status", currentStatus)}>
+                      {formatStatus(currentStatus)}
+                    </span>
+                  );
+                })()}
               </TableCell>
               <TableCell>{item.similarity_score?.toFixed(2) ?? 0}%</TableCell>
               <TableCell className="text-right">

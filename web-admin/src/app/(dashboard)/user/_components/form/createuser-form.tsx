@@ -1,7 +1,7 @@
 "use client";
 
 import InputGroup from "@/components/FormElements/InputGroup";
-import { createUser } from "@/lib/api/CRUD/users/users";
+import { createUserClient } from "@/lib/api/CRUD/users/users.client";
 import { useState } from "react";
 
 export function CreateUserForm({ onClose }: { onClose: () => void }) {
@@ -9,13 +9,23 @@ export function CreateUserForm({ onClose }: { onClose: () => void }) {
     username: "",
     email: "",
     password: "",
-    role: "", // Kosong default agar user harus pilih role
+    role: "",
   });
+  
+  // Add photo state
+  const [photo, setPhoto] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Handle photo upload
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -33,19 +43,27 @@ export function CreateUserForm({ onClose }: { onClose: () => void }) {
     }
 
     try {
-      await createUser(formData);
+      // Include photo in the data if available
+      const dataToSend = {
+        ...formData,
+        photo: photo // Include the photo file
+      };
+      
+      await createUserClient(dataToSend);
       alert("User created successfully!");
-      onClose(); // Tutup modal
+      onClose(); 
       setFormData({
         username: "",
         email: "",
         password: "",
         role: "",
       });
-      window.location.reload(); // Refresh data
+      setPhoto(null); // Reset photo
+      window.location.reload(); 
     } catch (error: any) {
-      alert(`Failed to create user: ${error.message}`);
+      // Better error handling
       console.error("Create user error:", error);
+      alert(`Failed to create user: ${error.message || error.toString()}`);
     }
   };
 
@@ -112,6 +130,20 @@ export function CreateUserForm({ onClose }: { onClose: () => void }) {
             <option value="DOSEN">Dosen</option>
             <option value="MAHASISWA">Mahasiswa</option>
           </select>
+        </div>
+
+        {/* Add photo upload field */}
+        <div>
+          <label className="mb-2 block text-sm font-medium text-dark dark:text-white">
+            Profile Photo (Optional)
+          </label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handlePhotoChange}
+            className="w-full rounded-lg border border-stroke bg-white focus:border-primary p-4 text-sm text-dark outline-none
+                        dark:border-strokedark dark:disabled:bg-dark dark:bg-dark-2 dark:text-white"
+          />
         </div>
 
         <button

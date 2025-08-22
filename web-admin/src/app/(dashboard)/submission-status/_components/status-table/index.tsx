@@ -10,7 +10,9 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
-import { getAllSubmissionStatus, SubmissionStatus } from "@/lib/api/CRUD/submission-status/status";
+// import { getAllSubmissionStatus, SubmissionStatus } from "@/lib/api/CRUD/submission-status/status";
+import { getAllSubmissionStatusClient } from "@/lib/api/CRUD/submission-status/submission-status.client";
+import { SubmissionStatus } from "@/lib/api/CRUD/submission-status/status";
 import { useRouter } from "next/navigation";
 import { PreviewIcon } from "@/components/Tables/icons";
 import { TrashIcon } from "@/assets/icons";
@@ -30,7 +32,7 @@ export function StatusTable({ className }: Props) {
     try {
       setLoading(true);
       setError(null);
-      const data = await getAllSubmissionStatus();
+      const data = await getAllSubmissionStatusClient();
       setRows(data);
     } catch (err) {
       console.error("Error fetching submission-status:", err);
@@ -48,8 +50,8 @@ export function StatusTable({ className }: Props) {
   /* ---------- STATE: LOADING ---------- */
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+      <div className="flex h-64 items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-primary"></div>
       </div>
     );
   }
@@ -76,7 +78,7 @@ export function StatusTable({ className }: Props) {
   /* ---------- STATE: DATA KOSONG ---------- */
   if (rows.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="py-12 text-center">
         <p className="text-gray-500">No submissions found</p>
       </div>
     );
@@ -87,13 +89,13 @@ export function StatusTable({ className }: Props) {
     <div
       className={cn(
         "rounded-[10px] bg-white p-7.5 shadow-1 dark:bg-gray-dark",
-        className
+        className,
       )}
     >
       <Table>
         <TableHeader>
           <TableRow className="border-none uppercase">
-            <TableHead>Student</TableHead>
+            {/* <TableHead>Student</TableHead> */}
             <TableHead className="w-180">Title</TableHead>
             <TableHead>Accepted By</TableHead>
             <TableHead>Status</TableHead>
@@ -109,14 +111,14 @@ export function StatusTable({ className }: Props) {
               // onClick={() => router.push(`/student-submissions/${item.submission_id}`)}
             >
               {/* ---------- COL: STUDENT ---------- */}
-              <TableCell className="w-40">
-                <div className="font-medium dark:text-white text-black">
+              {/* <TableCell className="w-40">
+                <div className="font-medium text-black dark:text-white">
                   {item.student.full_name}
                 </div>
                 <div className="text-sm text-gray-500">
                   NIM: {item.student.nim}
                 </div>
-              </TableCell>
+              </TableCell> */}
 
               {/* ---------- COL: TITLE ---------- */}
               <TableCell className="font-medium line-clamp-2">
@@ -124,13 +126,29 @@ export function StatusTable({ className }: Props) {
               </TableCell>
 
               {/* ---------- COL: ACCEPTED BY (LECTURER) ---------- */}
-              <TableCell className="text-sm text-gray-500">
+              {/* <TableCell className="text-sm text-gray-500">
                 <div className="font-medium dark:text-white text-black">
                   {item.lecturer.fullname}
                 </div>
                 <div className="text-sm text-gray-500">
                   NIP: {item.lecturer.nip}
                 </div>
+              </TableCell> */}
+              <TableCell className="text-sm text-gray-500">
+                {item.lecturer ? (
+                  <>
+                    <div className="font-medium text-black dark:text-white">
+                      {item.lecturer.fullname}
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      NIP: {item.lecturer.nip}
+                    </div>
+                  </>
+                ) : (
+                  <div className="italic text-gray-400">
+                    Belum direview dosen
+                  </div>
+                )}
               </TableCell>
 
               {/* ---------- COL: STATUS ---------- */}

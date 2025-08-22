@@ -1,7 +1,8 @@
 "use client";
 
 import InputGroup from "@/components/FormElements/InputGroup";
-import { updateUser } from "@/lib/api/CRUD/users/users";
+// import { updateUser } from "@/lib/api/CRUD/users/users";
+import { updateUserClient } from "@/lib/api/CRUD/users/users.client";
 import { useState, useEffect } from "react";
 
 interface UpdateUserFormProps {
@@ -67,7 +68,7 @@ export function UpdateUserForm({ user, onClose, onSuccess }: UpdateUserFormProps
         updateData.password = formData.password;
       }
 
-      await updateUser(user.user_id, updateData);
+      await updateUserClient(user.user_id, updateData);
       
       alert("User berhasil diupdate!");
       onClose();

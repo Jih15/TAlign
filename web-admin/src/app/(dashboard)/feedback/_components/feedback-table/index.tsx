@@ -29,13 +29,11 @@ type Student = {
 type SortDirection = 'asc' | 'desc' | null;
 type SortableField = keyof Pick<Student, 'nim' | 'full_name' | 'majors' | 'study_program'>;
 
-export function StudentTable({ className }: { className?: string }) {
+export function FeedbackTable({ className }: { className?: string }) {
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(true);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState<any | null>(null);
-  const [studentToDelete, setStudentToDelete] = useState<Student | null>(null);
   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
@@ -121,25 +119,6 @@ export function StudentTable({ className }: { className?: string }) {
     }
   };
 
-  // const handleDeleteClick = (student: Student) => {
-  //   setStudentToDelete(student);
-  //   setIsDeleteModalOpen(true);
-  // };
-
-  // const confirmDelete = async () => {
-  //   if (!studentToDelete) return;
-    
-  //   try {
-  //     // await deleteStudent(studentToDelete.user_id);
-  //     await fetchStudents();
-  //     setIsDeleteModalOpen(false);
-  //     setStudentToDelete(null);
-  //   } catch (error) {
-  //     console.error("Failed to delete student:", error);
-  //     alert("Failed to delete student. Please try again.");
-  //   }
-  // };
-
   if (loading) return <div className="text-white">Loading...</div>;
 
   return (
@@ -152,54 +131,11 @@ export function StudentTable({ className }: { className?: string }) {
       {/* Heading */}
       <div className="mb-4 flex items-center justify-between">
         <h2 className="text-body-2xlg font-bold text-dark dark:text-white">
-          All Students
+          All Feedback
         </h2>
       </div>
 
-      {/* Modals */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)}>
-        <UpdateStudentForm 
-          student={selectedStudent}
-          onClose={()=> setIsEditModalOpen(false)}
-          onSuccess={fetchStudents}
-        />
-      </Modal>
 
-      {/* Delete Confirmation Modal */}
-      {/* <Modal isOpen={isDeleteModalOpen} onClose={() => setIsDeleteModalOpen(false)}>
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-dark dark:text-white">
-              Confirm Deletion
-            </h2>
-            <button
-              onClick={() => setIsDeleteModalOpen(false)}
-              className="text-xl font-semibold text-gray-500 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
-            >
-              ✕
-            </button>
-          </div>
-          
-          <p className="text-dark dark:text-white">
-            Are you sure you want to delete student <strong>{studentToDelete?.full_name}</strong> (NIM: {studentToDelete?.nim})?
-          </p>
-          
-          <div className="flex justify-end space-x-3">
-            <button
-              onClick={() => setIsDeleteModalOpen(false)}
-              className="rounded-md px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={confirmDelete}
-              className="rounded-md bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </Modal> */}
 
       {/* Items per page selector */}
       <div className="mb-4 flex items-center justify-between">
@@ -245,7 +181,7 @@ export function StudentTable({ className }: { className?: string }) {
               onClick={() => handleSort('majors')}
             >
               <div className="flex items-center">
-                Majors
+                Rate
                 {renderSortIcon('majors')}
               </div>
             </TableHead>
@@ -254,7 +190,7 @@ export function StudentTable({ className }: { className?: string }) {
               onClick={() => handleSort('study_program')}
             >
               <div className="flex items-center">
-                Study Program
+                Comment
                 {renderSortIcon('study_program')}
               </div>
             </TableHead>
@@ -287,18 +223,10 @@ export function StudentTable({ className }: { className?: string }) {
                 )}
               </TableCell>
               <TableCell className="text-left">
-                {student.majors ? (
-                  student.majors
-                ) : (
-                  <span className="text-gray-400">Belum diisi</span>
-                )}
+                4.5
               </TableCell>
               <TableCell className="text-left">
-                {student.study_program ? (
-                  student.study_program
-                ) : (
-                  <span className="text-gray-400">Belum diisi</span>
-                )}
+                Ini comment nya
               </TableCell>
               <TableCell className="text-right xl:pr-7.5">
                 <div className="flex justify-end items-center gap-x-3.5">

@@ -4,35 +4,26 @@ import { OverviewCard } from "./card";
 import * as icons from "./icons";
 
 export async function OverviewCardsGroup() {
-  const { views, profit, products, users } = await getOverviewData();
+  const { status, students, users, lecturers } = await getOverviewData();
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4 2xl:gap-7.5">
       <OverviewCard
-        label="Total Views"
+        label="Pending Submission"
         data={{
-          ...views,
-          value: compactFormat(views.value),
+          ...status,
+          value: compactFormat(status.value),
         }}
         Icon={icons.Views}
       />
 
       <OverviewCard
-        label="Total Profit"
+        label="Total Students"
         data={{
-          ...profit,
-          value: "$" + compactFormat(profit.value),
+          ...students,
+          value: compactFormat(students.value),
         }}
         Icon={icons.Profit}
-      />
-
-      <OverviewCard
-        label="Total Products"
-        data={{
-          ...products,
-          value: compactFormat(products.value),
-        }}
-        Icon={icons.Product}
       />
 
       <OverviewCard
@@ -40,6 +31,15 @@ export async function OverviewCardsGroup() {
         data={{
           ...users,
           value: compactFormat(users.value),
+        }}
+        Icon={icons.Product}
+      />
+
+      <OverviewCard
+        label="Total Lecturer"
+        data={{
+          ...lecturers,
+          value: compactFormat(lecturers.value),
         }}
         Icon={icons.Users}
       />
